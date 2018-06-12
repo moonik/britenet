@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PersonAssembler {
+public class PersonAsm {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-mm-yyyy");
 

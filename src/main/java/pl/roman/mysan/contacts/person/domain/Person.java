@@ -3,7 +3,9 @@ package pl.roman.mysan.contacts.person.domain;
 import lombok.Builder;
 import lombok.Data;
 import pl.roman.mysan.contacts.contact.domain.Contact;
+import pl.roman.mysan.contacts.person.model.PersonDTO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +39,14 @@ public class Person {
     @Size(min = 11, max = 11)
     private Integer pesel;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Contact> contacts;
+
+    public void edit(PersonDTO personDTO) {
+        this.name = personDTO.getName();
+        this.surname = personDTO.getSurname();
+        this.gender = personDTO.getGender();
+        this.birthDate = LocalDate.parse(personDTO.getBirthDate());
+        this.pesel = personDTO.getPesel();
+    }
 }
