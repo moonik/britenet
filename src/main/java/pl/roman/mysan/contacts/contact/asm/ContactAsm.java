@@ -11,15 +11,15 @@ public class ContactAsm {
 
     public static Contact createEntityObject(ContactDTO contactDTO) {
         if (contactDTO instanceof PhoneNumberDTO) {
-            return new PhoneNumber(((PhoneNumberDTO) contactDTO).getPhoneNumber());
+            return new PhoneNumber(((PhoneNumberDTO) contactDTO).getValue());
         } else
-            return new EmailAddress(((EmailAddressDTO) contactDTO).getEmail());
+            return new EmailAddress(((EmailAddressDTO) contactDTO).getValue());
     }
 
     public static ContactDTO createDtoObject(Contact contact) {
         if (contact instanceof PhoneNumber) {
-            return new PhoneNumberDTO(contact.getId(), ((PhoneNumber) contact).getPhoneNumber());
+            return new PhoneNumberDTO(contact.getId(), ((PhoneNumber) contact).getValue());
         } else
-            return new EmailAddressDTO(contact.getId(), ((EmailAddress) contact).getEmail());
+            return new EmailAddressDTO(contact.getId(), ((EmailAddress) contact).getValue());
     }
 }

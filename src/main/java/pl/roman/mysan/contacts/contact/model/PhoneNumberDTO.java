@@ -1,13 +1,16 @@
 package pl.roman.mysan.contacts.contact.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@Getter @Setter
 public class PhoneNumberDTO extends ContactDTO {
-    private String phoneNumber;
+    private String value;
 
     public PhoneNumberDTO(Long id, String phoneNumber) {
         super(id);
-        this.phoneNumber = phoneNumber;
+        this.value = phoneNumber;
     }
 }

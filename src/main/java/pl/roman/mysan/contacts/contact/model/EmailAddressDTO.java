@@ -1,13 +1,16 @@
 package pl.roman.mysan.contacts.contact.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@Getter @Setter
 public class EmailAddressDTO extends ContactDTO {
-    private String email;
+    private String value;
 
     public EmailAddressDTO(Long id, String email) {
         super(id);
-        this.email = email;
+        this.value = email;
     }
 }

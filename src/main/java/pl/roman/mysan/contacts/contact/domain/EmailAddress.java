@@ -1,10 +1,13 @@
 package pl.roman.mysan.contacts.contact.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -15,14 +18,16 @@ import javax.validation.constraints.Email;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("email")
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
+@Getter @Setter
 public class EmailAddress extends Contact {
 
     @Email
-    private String email;
+    @Column(unique = true)
+    private String value;
 
     @Override
     public void edit(ContactDTO contactDTO) {
-        this.email = ((EmailAddressDTO) contactDTO).getEmail();
+        this.value = ((EmailAddressDTO) contactDTO).getValue();
     }
 }

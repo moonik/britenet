@@ -1,10 +1,13 @@
 package pl.roman.mysan.contacts.contact.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
+@Getter @Setter
 public abstract class ContactDTO {
     private Long id;
 }

@@ -1,11 +1,16 @@
 package pl.roman.mysan.contacts.person.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +22,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
 @Builder
 public class Person {
 
@@ -37,7 +44,8 @@ public class Person {
     private LocalDate birthDate;
 
     @Size(min = 11, max = 11)
-    private Integer pesel;
+    @Column(unique = true)
+    private String pesel;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Contact> contacts;

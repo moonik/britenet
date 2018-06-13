@@ -1,6 +1,8 @@
 package pl.roman.mysan.contacts.contact.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
 
 import javax.persistence.DiscriminatorColumn;
@@ -11,7 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Data
+@NoArgsConstructor
+@Getter @Setter
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Contact {
 

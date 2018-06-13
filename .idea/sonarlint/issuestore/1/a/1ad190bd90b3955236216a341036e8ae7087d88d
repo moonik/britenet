@@ -1,0 +1,5 @@
+
+vsquid:S1450,"XRemove the "birthDate" field and declare it as a local variable in the relevant methods.(îŸ°³8›”¢¿,
+xsquid:S1450)"URemove the "gender" field and declare it as a local variable in the relevant methods.(è÷çşÿÿÿÿ8›”¢¿,
+Xsquid:UselessImportCheck"(Remove this unused import 'lombok.Data'.(÷í«ÿÿÿÿÿ8ŠŸí¢¿,
+Usquid:S1135+"2Complete the task associated to this TODO comment.(¤ìÔ¢øÿÿÿÿ8›”¢¿,
