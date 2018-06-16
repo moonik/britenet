@@ -47,7 +47,7 @@ public class Person {
     @Column(unique = true)
     private String pesel;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Contact> contacts;
 
     public void edit(PersonDTO personDTO) {

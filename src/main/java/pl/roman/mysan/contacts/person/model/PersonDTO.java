@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
-import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
-
-import java.util.List;
+import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +18,5 @@ public class PersonDTO {
     private Character gender;
     private String birthDate;
     private String pesel;
-    private List<EmailAddressDTO> emails;
-    private List<PhoneNumberDTO> phoneNubers;
+    private PersonContactDTO contacts;
 }

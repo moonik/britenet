@@ -21,18 +21,13 @@ public class ContactService {
     private final ContactRepository contactRepository;
     private final PersonRepository personRepository;
 
-    public void addPhones(Long id, List<PhoneNumberDTO> phones) {
-        List<Contact> contacts = phones.stream().map(ContactAsm::createEntityObject).collect(Collectors.toList());
-        save(id, contacts);
-    }
-
-    public void addEmails(Long id, List<EmailAddressDTO> emails) {
-        List<Contact> contacts = emails.stream().map(ContactAsm::createEntityObject).collect(Collectors.toList());
-        save(id, contacts);
-    }
-
-    private void save(Long id, List<Contact> contact) {
+    public void addContacts(Long id, List<ContactDTO> contactsDto) {
         Person person = personRepository.getOne(id);
+        List<Contact> contacts = contactsDto.stream().map(c -> ContactAsm.createEntityObject(c, person)).collect(Collectors.toList());
+        save(person, contacts);
+    }
+
+    private void save(Person person, List<Contact> contact) {
         List<Contact> contacts = person.getContacts();
         contacts.addAll(contact);
         person.setContacts(contacts);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
+import pl.roman.mysan.contacts.person.domain.Person;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -17,7 +18,6 @@ import javax.validation.constraints.Email;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("email")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
 public class EmailAddress extends Contact {
@@ -25,6 +25,11 @@ public class EmailAddress extends Contact {
     @Email
     @Column(unique = true)
     private String value;
+
+    public EmailAddress(Person person, String value) {
+        super(person);
+        this.value = value;
+    }
 
     @Override
     public void edit(ContactDTO contactDTO) {
