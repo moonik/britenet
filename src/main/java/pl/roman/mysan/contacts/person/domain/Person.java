@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
+import pl.roman.mysan.contacts.utils.validator.DateConstraint;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
@@ -40,10 +42,10 @@ public class Person {
 
     private Character gender;
 
-    //TODO add annotation to validate date
+    @DateConstraint
     private LocalDate birthDate;
 
-    @Size(min = 11, max = 11)
+    @Pattern(regexp="(^$|[0-9]{11})")
     @Column(unique = true)
     private String pesel;
 

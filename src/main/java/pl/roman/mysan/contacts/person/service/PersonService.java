@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
-import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;

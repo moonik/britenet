@@ -23,7 +23,6 @@ import javax.validation.constraints.Email;
 public class EmailAddress extends Contact {
 
     @Email
-    @Column(unique = true)
     private String value;
 
     public EmailAddress(Person person, String value) {
