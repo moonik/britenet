@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -16,7 +18,7 @@ public class PersonDTO {
     private String name;
     private String surname;
     private Character gender;
-    private String birthDate;
+    private LocalDate birthDate;
     private String pesel;
     private PersonContactDTO contacts;
 }

@@ -21,7 +21,7 @@ public class PersonAsm {
                 .name(personDTO.getName())
                 .surname(personDTO.getSurname())
                 .gender(personDTO.getGender())
-                .birthDate(LocalDate.parse(personDTO.getBirthDate()))
+                .birthDate(personDTO.getBirthDate())
                 .pesel(personDTO.getPesel())
                 .build();
     }

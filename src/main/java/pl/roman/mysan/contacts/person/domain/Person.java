@@ -56,7 +56,7 @@ public class Person {
         this.name = personDTO.getName();
         this.surname = personDTO.getSurname();
         this.gender = personDTO.getGender();
-        this.birthDate = LocalDate.parse(personDTO.getBirthDate());
+        this.birthDate = personDTO.getBirthDate();
         this.pesel = personDTO.getPesel();
     }
 }
