@@ -54,6 +54,13 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    public List<PersonInfoDTO> findPeopleByPattern(String pattern) {
+        return personRepository.findPeopleByPattern(pattern)
+                .stream()
+                .map(PersonAsm::createPersonInfoDto)
+                .collect(Collectors.toList());
+    }
+
     private static List<Contact> convertContacts(PersonContactDTO contacts, Person person) {
         List<EmailAddressDTO> emails = contacts.getEmails();
         List<PhoneNumberDTO> phones = contacts.getPhones();

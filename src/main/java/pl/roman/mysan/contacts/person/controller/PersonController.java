@@ -49,6 +49,9 @@ public class PersonController {
 
     @GetMapping("/search")
     public List<PersonInfoDTO> findPeopleByEmail(@RequestParam String email) {
-        return personService.findPeopleByEmail(email);
+        if (email.contains("*")) {
+            return personService.findPeopleByPattern("@" + email.replaceAll("\\*", ""));
+        } else
+            return personService.findPeopleByEmail(email);
     }
 }

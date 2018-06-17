@@ -30,6 +30,7 @@ public class PersonAsm {
 
     public static PersonInfoDTO createPersonInfoDto(Person person) {
         return PersonInfoDTO.builder()
+                .id(person.getId())
                 .name(person.getName())
                 .surname(person.getSurname())
                 .gender(person.getGender())
