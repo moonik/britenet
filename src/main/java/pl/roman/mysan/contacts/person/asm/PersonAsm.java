@@ -1,21 +1,19 @@
 package pl.roman.mysan.contacts.person.asm;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
-import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
-import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
 import pl.roman.mysan.contacts.person.model.PersonInfoDTO;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PersonAsm {
 
     public static Person createEntityObject(PersonDTO personDTO) {

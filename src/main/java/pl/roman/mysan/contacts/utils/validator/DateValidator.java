@@ -13,7 +13,8 @@ public class DateValidator implements ConstraintValidator<DateConstraint, LocalD
 
     @Override
     public boolean isValid(LocalDate birthDate, ConstraintValidatorContext constraintValidatorContext) {
-        LocalDate d = LocalDate.parse("1918-01-01");
-        return birthDate.isAfter(d) && birthDate.isBefore(LocalDate.now());
+        LocalDate past = LocalDate.parse("1918-01-01");
+        LocalDate future = LocalDate.now().plusDays(1);
+        return birthDate.isAfter(past) && birthDate.isBefore(future);
     }
 }

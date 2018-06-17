@@ -1,5 +1,7 @@
 package pl.roman.mysan.contacts.contact.asm;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
@@ -9,10 +11,9 @@ import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.person.domain.Person;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ContactAsm {
 
     public static Contact createEntityObject(ContactDTO contactDTO, Person person) {
