@@ -18,9 +18,9 @@ public class ContactAsm {
 
     public static Contact createEntityObject(ContactDTO contactDTO, Person person) {
         if (contactDTO instanceof PhoneNumberDTO) {
-            return new PhoneNumber(person, ((PhoneNumberDTO) contactDTO).getValue());
+            return new PhoneNumber(person, ((PhoneNumberDTO) contactDTO).getPhone());
         } else
-            return new EmailAddress(person, ((EmailAddressDTO) contactDTO).getValue());
+            return new EmailAddress(person, ((EmailAddressDTO) contactDTO).getEmail());
     }
 
     public static ContactDTO createDtoObject(Contact contact) {

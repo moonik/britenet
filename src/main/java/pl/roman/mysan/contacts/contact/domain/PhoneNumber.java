@@ -31,6 +31,6 @@ public class PhoneNumber extends Contact {
 
     @Override
     public void edit(ContactDTO contactDTO) {
-        this.value = ((PhoneNumberDTO) contactDTO).getValue();
+        this.value = ((PhoneNumberDTO) contactDTO).getPhone();
     }
 }

@@ -7,10 +7,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter @Setter
 public class EmailAddressDTO extends ContactDTO {
-    private String value;
+    private String email;
 
     public EmailAddressDTO(Long id, String email) {
         super(id);
-        this.value = email;
+        this.email = email;
     }
 }

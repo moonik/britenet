@@ -7,10 +7,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter @Setter
 public class PhoneNumberDTO extends ContactDTO {
-    private String value;
+    private String phone;
 
     public PhoneNumberDTO(Long id, String phoneNumber) {
         super(id);
-        this.value = phoneNumber;
+        this.phone = phoneNumber;
     }
 }

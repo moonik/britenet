@@ -31,6 +31,6 @@ public class EmailAddress extends Contact {
 
     @Override
     public void edit(ContactDTO contactDTO) {
-        this.value = ((EmailAddressDTO) contactDTO).getValue();
+        this.value = ((EmailAddressDTO) contactDTO).getEmail();
     }
 }
