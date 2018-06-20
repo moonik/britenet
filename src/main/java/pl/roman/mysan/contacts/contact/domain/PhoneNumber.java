@@ -7,6 +7,7 @@ import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.person.domain.Person;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

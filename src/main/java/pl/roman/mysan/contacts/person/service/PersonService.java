@@ -7,6 +7,7 @@ import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
+import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.person.asm.PersonAsm;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
@@ -27,6 +28,9 @@ public class PersonService {
     private final PersonRepository personRepository;
 
     public void save(PersonDTO personDTO) {
+        if (personRepository.findByPesel(personDTO.getPesel()) != null) {
+            throw new AlreadyExistsException("Person with pesel " + personDTO.getPesel() + "already exist!");
+        }
         Person person = PersonAsm.createEntityObject(personDTO);
         validateContacts(personDTO.getContacts());
         List<Contact> contacts = convertContacts(personDTO.getContacts(), person);

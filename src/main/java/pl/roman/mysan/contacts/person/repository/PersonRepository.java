@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
+    Person findByPesel(String pesel);
     List<Person> findByBirthDateBetween(LocalDate first, LocalDate second);
     @Query("SELECT contact.person FROM EmailAddress contact WHERE contact.value = :email")
     List<Person> findPeopleByEmail(@Param("email") String email);
