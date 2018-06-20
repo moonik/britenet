@@ -2,11 +2,10 @@ package pl.roman.mysan.contacts.contact.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.roman.mysan.contacts.common.ValidationService;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
-import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
-import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.contact.repository.ContactRepository;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;

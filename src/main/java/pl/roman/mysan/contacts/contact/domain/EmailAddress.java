@@ -1,6 +1,5 @@
 package pl.roman.mysan.contacts.contact.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+
+import static pl.roman.mysan.contacts.common.ApplicationConstants.EMAIL_PATTERN;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,7 +22,7 @@ import javax.validation.constraints.Email;
 @Getter @Setter
 public class EmailAddress extends Contact {
 
-    @Email
+    @Pattern(regexp= EMAIL_PATTERN)
     private String value;
 
     public EmailAddress(Person person, String value) {

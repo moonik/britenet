@@ -32,9 +32,9 @@ public class PersonController {
         personService.save(personDTO);
     }
 
-    @PutMapping("/{id}")
-    public void edit(@PathVariable Long id, @Valid @RequestBody PersonDTO personDTO) {
-        personService.edit(id, personDTO);
+    @PutMapping("/")
+    public void edit(@Valid @RequestBody PersonDTO personDTO) {
+        personService.edit(personDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -49,9 +49,6 @@ public class PersonController {
 
     @GetMapping("/search")
     public List<PersonInfoDTO> findPeopleByEmail(@RequestParam String email) {
-        if (email.contains("*")) {
-            return personService.findPeopleByPattern("@" + email.replaceAll("\\*", ""));
-        } else
-            return personService.findPeopleByEmail(email);
+        return personService.findPeopleByEmail(email);
     }
 }

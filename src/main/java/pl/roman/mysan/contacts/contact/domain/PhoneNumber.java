@@ -1,6 +1,5 @@
 package pl.roman.mysan.contacts.contact.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +13,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.Pattern;
 
+import static pl.roman.mysan.contacts.common.ApplicationConstants.PHONE_PATTERN;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("phone")
@@ -21,7 +22,7 @@ import javax.validation.constraints.Pattern;
 @Getter @Setter
 public class PhoneNumber extends Contact {
 
-    @Pattern(regexp="(^$|[0-9]{9})")
+    @Pattern(regexp= PHONE_PATTERN)
     private String value;
 
     public PhoneNumber(Person person, String value) {

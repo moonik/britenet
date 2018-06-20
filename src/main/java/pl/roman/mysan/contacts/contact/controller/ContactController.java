@@ -26,7 +26,8 @@ public class ContactController {
 
     @PostMapping("/{id}")
     public void save(@PathVariable Long id, @RequestBody PersonContactDTO personContactDTO) {
-        contactService.addContacts(id, ContactAsm.collectContacts(personContactDTO.getEmails(), personContactDTO.getPhones()));
+        contactService.addContacts(id,
+                ContactAsm.collectContacts(personContactDTO.getEmails(), personContactDTO.getPhones()));
     }
 
     @PutMapping("/")

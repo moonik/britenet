@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.roman.mysan.contacts.common.ValidationService.validateEmails;
+import static pl.roman.mysan.contacts.common.ValidationService.validatePhones;
+
 @Service
 @AllArgsConstructor
 public class PersonService {
@@ -25,13 +28,14 @@ public class PersonService {
 
     public void save(PersonDTO personDTO) {
         Person person = PersonAsm.createEntityObject(personDTO);
+        validateContacts(personDTO.getContacts());
         List<Contact> contacts = convertContacts(personDTO.getContacts(), person);
         person.setContacts(contacts);
         personRepository.save(person);
     }
 
-    public void edit(Long id, PersonDTO personDTO) {
-        Person person = personRepository.getOne(id);
+    public void edit(PersonDTO personDTO) {
+        Person person = personRepository.getOne(personDTO.getId());
         person.edit(personDTO);
         personRepository.saveAndFlush(person);
     }
@@ -48,13 +52,20 @@ public class PersonService {
     }
 
     public List<PersonInfoDTO> findPeopleByEmail(String email) {
+        if (email.contains("*")) {
+            return findByPattern("@" + email.replaceAll("\\*", ""));
+        } else
+            return findByEmail(email);
+    }
+
+    private List<PersonInfoDTO> findByEmail(String email) {
         return personRepository.findPeopleByEmail(email)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PersonInfoDTO> findPeopleByPattern(String pattern) {
+    private List<PersonInfoDTO> findByPattern(String pattern) {
         return personRepository.findPeopleByPattern(pattern)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
@@ -68,5 +79,10 @@ public class PersonService {
                 .stream()
                 .map(c -> ContactAsm.createEntityObject(c, person))
                 .collect(Collectors.toList());
+    }
+
+    private static void validateContacts(PersonContactDTO contacts) {
+        validateEmails(contacts.getEmails());
+        validatePhones(contacts.getPhones());
     }
 }
