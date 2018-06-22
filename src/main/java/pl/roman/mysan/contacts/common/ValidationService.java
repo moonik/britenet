@@ -28,7 +28,7 @@ public class ValidationService {
         LocalDate past = LocalDate.parse(VALID_PAST_DATE);
         StringBuilder str = new StringBuilder();
         if (!date.isAfter(past) || !date.isBefore(LocalDate.now().plusDays(1))) {
-            str.append("Date can't be future or lower than 1918-01-01!\n");
+            str.append("Date can't be future or before 1918-01-01!\n");
         }
         if (personDTO.getName().isEmpty() || personDTO.getSurname().isEmpty()) {
             str.append("Fields name and surname can't be empty!\n");
@@ -36,17 +36,21 @@ public class ValidationService {
         if (!personDTO.getPesel().matches(PESEL_PATTERN)) {
             str.append("Pesel should contains 11 digits!\n");
         }
-        str.append(validateEmails(personDTO.getContacts().getEmails()) + "\n");
-        str.append(validatePhones(personDTO.getContacts().getPhones()) + "\n");
+        String contactsValidation = validateContacts(personDTO.getContacts().getEmails(), personDTO.getContacts().getPhones());
+        if (!contactsValidation.isEmpty()) {
+            str.append(contactsValidation);
+        }
         if (!str.toString().isEmpty()) {
             throw new ValidationException(str.toString());
         }
     }
 
-    public static void validateContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
-        StringBuilder str = new StringBuilder();
-        str.append(validateEmails(emails));
-        str.append(validatePhones(phones));
+    public static String validateContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
+        return new StringBuilder()
+                .append(validateEmails(emails))
+                .append("\n")
+                .append(validatePhones(phones))
+                .toString();
     }
 
     private static String validateEmails(List<EmailAddressDTO> emails) {
