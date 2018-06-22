@@ -4,6 +4,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
+import static pl.roman.mysan.contacts.common.ApplicationConstants.VALID_PAST_DATE;
+
 public class DateValidator implements ConstraintValidator<DateConstraint, LocalDate> {
 
     @Override
@@ -13,7 +15,7 @@ public class DateValidator implements ConstraintValidator<DateConstraint, LocalD
 
     @Override
     public boolean isValid(LocalDate birthDate, ConstraintValidatorContext constraintValidatorContext) {
-        LocalDate past = LocalDate.parse("1918-01-01");
+        LocalDate past = LocalDate.parse(VALID_PAST_DATE);
         LocalDate future = LocalDate.now().plusDays(1);
         return birthDate.isAfter(past) && birthDate.isBefore(future);
     }

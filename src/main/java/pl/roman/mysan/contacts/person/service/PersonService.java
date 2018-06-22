@@ -18,20 +18,19 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.roman.mysan.contacts.common.ValidationService.validateEmails;
-import static pl.roman.mysan.contacts.common.ValidationService.validatePhones;
+import static pl.roman.mysan.contacts.common.ValidationService.validatePersonData;
 
 @Service
 @AllArgsConstructor
 public class PersonService {
 
-    private final PersonRepository personRepository;
+    protected final PersonRepository personRepository;
 
     public void save(PersonDTO personDTO) {
         if (personRepository.findByPesel(personDTO.getPesel()) != null) {
             throw new AlreadyExistsException("Person with pesel " + personDTO.getPesel() + "already exist!");
         }
-        validateContacts(personDTO.getContacts());
+        validatePersonData(personDTO);
         Person person = PersonAsm.createEntityObject(personDTO);
         List<Contact> contacts = convertContacts(personDTO.getContacts(), person);
         person.setContacts(contacts);
@@ -39,6 +38,7 @@ public class PersonService {
     }
 
     public void edit(PersonDTO personDTO) {
+        validatePersonData(personDTO);
         Person person = personRepository.getOne(personDTO.getId());
         person.edit(personDTO);
         personRepository.saveAndFlush(person);
@@ -49,6 +49,9 @@ public class PersonService {
     }
 
     public List<PersonInfoDTO> findPeopleByBirthDateBetween(String first, String second) {
+        if (first.isEmpty() || second.isEmpty()) {
+            throw new IllegalArgumentException("One of the date is empty!");
+        }
         return personRepository.findByBirthDateBetween(LocalDate.parse(first), LocalDate.parse(second))
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
@@ -83,10 +86,5 @@ public class PersonService {
                 .stream()
                 .map(c -> ContactAsm.createEntityObject(c, person))
                 .collect(Collectors.toList());
-    }
-
-    private static void validateContacts(PersonContactDTO contacts) {
-        validateEmails(contacts.getEmails());
-        validatePhones(contacts.getPhones());
     }
 }

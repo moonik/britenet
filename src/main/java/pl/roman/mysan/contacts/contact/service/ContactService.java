@@ -14,11 +14,11 @@ import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.roman.mysan.contacts.common.ValidationService.validateEmails;
-import static pl.roman.mysan.contacts.common.ValidationService.validatePhones;
+import static pl.roman.mysan.contacts.common.ValidationService.validateContacts;
 
 @Service
 @AllArgsConstructor
@@ -28,8 +28,7 @@ public class ContactService {
     private final PersonRepository personRepository;
 
     public void addContacts(Long id, PersonContactDTO contactsDto) {
-        validateEmails(contactsDto.getEmails());
-        validatePhones(contactsDto.getPhones());
+        validateContacts(contactsDto.getEmails(), contactsDto.getPhones());
         Person person = personRepository.getOne(id);
         List<Contact> contacts = convertContacts(contactsDto.getEmails(), contactsDto.getPhones(), person);
         save(person, contacts);
@@ -45,9 +44,9 @@ public class ContactService {
     public void edit(ContactDTO contactDTO) {
         Contact contact = contactRepository.getOne(contactDTO.getId());
         if (contact instanceof PhoneNumber) {
-            validatePhones(Arrays.asList(((PhoneNumberDTO) contactDTO)));
+            validateContacts(Collections.emptyList(), Arrays.asList(((PhoneNumberDTO) contactDTO)));
         } else
-            validateEmails(Arrays.asList(((EmailAddressDTO) contactDTO)));
+            validateContacts(Arrays.asList(((EmailAddressDTO) contactDTO)), Collections.emptyList());
         contact.edit(contactDTO);
         contactRepository.saveAndFlush(contact);
     }

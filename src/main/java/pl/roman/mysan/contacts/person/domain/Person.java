@@ -22,6 +22,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.List;
 
+import static pl.roman.mysan.contacts.common.ApplicationConstants.PESEL_PATTERN;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,7 +46,7 @@ public class Person {
     @DateConstraint
     private LocalDate birthDate;
 
-    @Pattern(regexp="(^$|[0-9]{11})")
+    @Pattern(regexp=PESEL_PATTERN)
     @Column(unique = true)
     private String pesel;
 

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
         return ex.getMessage().replaceAll(PACKAGE_NAME,"");
     }
 
-    @ExceptionHandler(InvalidFormatException.class)
+    @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public String handleInvalidFormatException(Exception ex) {
         return ex.getMessage();
@@ -27,6 +27,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleAlreadyExistException(Exception ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public String handleIllegalArgumentException(Exception ex) {
         return ex.getMessage();
     }
 }
