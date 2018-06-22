@@ -16,6 +16,7 @@ import pl.roman.mysan.contacts.person.service.PersonService;
 
 import javax.validation.Valid;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static pl.roman.mysan.contacts.common.ApplicationConstants.API_URL;
@@ -33,8 +34,8 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public PersonDTO edit(@Valid @RequestBody PersonDTO personDTO) {
-        return personService.edit(personDTO);
+    public void edit(@Valid @RequestBody PersonDTO personDTO) {
+        personService.edit(personDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -43,7 +44,7 @@ public class PersonController {
     }
 
     @GetMapping("/search/between")
-    public List<PersonInfoDTO> findPeopleByBirthDateBetween(@RequestParam String first, @RequestParam String second) {
+    public List<PersonInfoDTO> findPeopleByBirthDateBetween(@RequestParam LocalDate first, @RequestParam LocalDate second) {
         return personService.findPeopleByBirthDateBetween(first, second);
     }
 

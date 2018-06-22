@@ -10,6 +10,7 @@ import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.contact.repository.ContactRepository;
+import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
@@ -18,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.roman.mysan.contacts.common.ValidationService.validateContacts;
+import static pl.roman.mysan.contacts.common.ValidationService.validatePersonContacts;
 
 @Service
 @AllArgsConstructor
@@ -28,10 +29,13 @@ public class ContactService {
     private final PersonRepository personRepository;
 
     public void addContacts(Long id, PersonContactDTO contactsDto) {
-        validateContacts(contactsDto.getEmails(), contactsDto.getPhones());
-        Person person = personRepository.getOne(id);
-        List<Contact> contacts = convertContacts(contactsDto.getEmails(), contactsDto.getPhones(), person);
-        save(person, contacts);
+        validatePersonContacts(contactsDto.getEmails(), contactsDto.getPhones());
+        if (personRepository.existsById(id)) {
+            Person person = personRepository.getOne(id);
+            List<Contact> contacts = convertContacts(contactsDto.getEmails(), contactsDto.getPhones(), person);
+            save(person, contacts);
+        } else
+            throw new NotFoundException("Person with id=" + id + "does not exist!");
     }
 
     private void save(Person person, List<Contact> contact) {
@@ -42,17 +46,23 @@ public class ContactService {
     }
 
     public void edit(ContactDTO contactDTO) {
-        Contact contact = contactRepository.getOne(contactDTO.getId());
-        if (contact instanceof PhoneNumber) {
-            validateContacts(Collections.emptyList(), Arrays.asList(((PhoneNumberDTO) contactDTO)));
+        if (contactRepository.existsById(contactDTO.getId())) {
+            Contact contact = contactRepository.getOne(contactDTO.getId());
+            if (contact instanceof PhoneNumber) {
+                validatePersonContacts(Collections.emptyList(), Arrays.asList(((PhoneNumberDTO) contactDTO)));
+            } else
+                validatePersonContacts(Arrays.asList(((EmailAddressDTO) contactDTO)), Collections.emptyList());
+            contact.edit(contactDTO);
+            contactRepository.saveAndFlush(contact);
         } else
-            validateContacts(Arrays.asList(((EmailAddressDTO) contactDTO)), Collections.emptyList());
-        contact.edit(contactDTO);
-        contactRepository.saveAndFlush(contact);
+            throw new NotFoundException("Contact with id=" + contactDTO.getId() + " does not exist!");
     }
 
     public void delete(Long id) {
-        contactRepository.deleteById(id);
+        if (contactRepository.existsById(id)) {
+            contactRepository.deleteById(id);
+        } else
+            throw new NotFoundException("Contact with id=" + id + " does not exist!");
     }
 
     private static List<Contact> convertContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones, Person person) {

@@ -48,12 +48,21 @@ public class ValidationService {
         }
     }
 
-    public static String validateContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
+    private static String validateContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
         return new StringBuilder()
                 .append(validateEmails(emails))
                 .append("\n")
                 .append(validatePhones(phones))
                 .toString();
+    }
+
+    public static void validatePersonContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
+        StringBuilder str = new StringBuilder();
+        str.append(validateEmails(emails) + "\n");
+        str.append(validatePhones(phones));
+        if (!str.toString().trim().isEmpty()) {
+            throw new ValidationException(str.toString().trim());
+        }
     }
 
     private static String validateEmails(List<EmailAddressDTO> emails) {

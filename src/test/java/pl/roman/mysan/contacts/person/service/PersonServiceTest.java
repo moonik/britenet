@@ -1,11 +1,11 @@
 package pl.roman.mysan.contacts.person.service;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import pl.roman.mysan.contacts.TestDataFactory;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
+import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.exceptions.ValidationException;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
@@ -13,11 +13,9 @@ import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +26,9 @@ public class PersonServiceTest {
     @Mock
     private PersonRepository personRepository;
     private PersonService personService;
+
+    private static final Boolean EXIST = true;
+    private static final Boolean NOT_EXIST = false;
 
     @Before
     public void setup() {
@@ -131,6 +132,20 @@ public class PersonServiceTest {
         //then throw ValidationException
     }
 
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowNotFoundExceptionWhenEditingPerson() {
+        //given
+        PersonDTO personDTO = TestDataFactory.personDtoWithValidData();
+
+        //and
+        when(personRepository.existsById(personDTO.getId())).thenReturn(NOT_EXIST);
+
+        //when
+        personService.edit(personDTO);
+
+        //then throw NotFoundException
+    }
+
     @Test
     public void shouldEditPerson() {
         //given
@@ -140,21 +155,50 @@ public class PersonServiceTest {
 
         //and
         personDTO.setName(name);
+        when(personRepository.existsById(personDTO.getId())).thenReturn(EXIST);
         when(personRepository.getOne(personDTO.getId())).thenReturn(oldPerson);
 
         //when
-        PersonDTO newPerson = personService.edit(personDTO);
+        personService.edit(personDTO);
 
         //then
         verify(personRepository, times(1)).saveAndFlush(any(Person.class));
-        assertEquals(personDTO.getName(), newPerson.getName());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowNotFoundExceptionWhileDeletingPerson() {
+        //given
+        Long id = 1L;
+
+        //and
+        when(personRepository.existsById(id)).thenReturn(NOT_EXIST);
+
+        //when
+        personService.delete(id);
+
+        //then throw NotFoundException
+    }
+
+    @Test
+    public void shouldDeletePerson() {
+        //given
+        Long id = 1L;
+
+        //and
+        when(personRepository.existsById(id)).thenReturn(EXIST);
+
+        //when
+        personService.delete(id);
+
+        //then
+        verify(personRepository, times(1)).deleteById(id);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhileSearchingPeople() {
         //given
-        String firstDate = "";
-        String secondDate = "2012-02-12";
+        LocalDate firstDate = null;
+        LocalDate secondDate = LocalDate.of(1995, 1, 1);
 
         //when
         personService.findPeopleByBirthDateBetween(firstDate, secondDate);
@@ -165,19 +209,17 @@ public class PersonServiceTest {
     @Test
     public void shouldSearchPeopleByBirthDateBetween() {
         //given
-        String firstDate = "1991-12-12";
-        String secondDate = "2000-12-12";
-        LocalDate parsedFirstDate = LocalDate.parse(firstDate);
-        LocalDate parsedSecondDate = LocalDate.parse(secondDate);
+        LocalDate firstDate = LocalDate.of(1995, 1, 1);
+        LocalDate secondDate = LocalDate.of(2000, 1, 1);
 
         //and
-        when(personRepository.findByBirthDateBetween(parsedFirstDate, parsedSecondDate)).thenReturn(Collections.emptyList());
+        when(personRepository.findByBirthDateBetween(firstDate, secondDate)).thenReturn(Collections.emptyList());
 
         //when
         personService.findPeopleByBirthDateBetween(firstDate, secondDate);
 
         //then
-        verify(personRepository, times(1)).findByBirthDateBetween(parsedFirstDate, parsedSecondDate);
+        verify(personRepository, times(1)).findByBirthDateBetween(firstDate, secondDate);
     }
 
     @Test

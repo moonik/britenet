@@ -13,7 +13,7 @@ import pl.roman.mysan.contacts.person.domain.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.roman.mysan.contacts.common.ValidationService.validateContacts;
+import static pl.roman.mysan.contacts.common.ValidationService.validatePersonContacts;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ContactAsm {
@@ -33,7 +33,7 @@ public class ContactAsm {
     }
 
     public static List<ContactDTO> collectContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
-        validateContacts(emails, phones);
+        validatePersonContacts(emails, phones);
         List<ContactDTO> contacts = new ArrayList<>();
         contacts.addAll(emails);
         contacts.addAll(phones);

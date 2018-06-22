@@ -29,7 +29,6 @@ public class TestDataFactory {
     private static final String[] phones = {"123456789", "1", "32193879387319783", "321987dkjalskdja", "312dasd213"};
 
     public static PersonDTO personDtoWithInvalidPastDate() {
-        PersonContactDTO contacts = new PersonContactDTO(Collections.emptyList(), Collections.emptyList());
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -37,12 +36,11 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[1])
                 .pesel(pesels[0])
-                .contacts(contacts)
+                .contacts(personContactDtoWithValidData())
                 .build();
     }
 
     public static PersonDTO personDtoWithFutureDate() {
-        PersonContactDTO contacts = new PersonContactDTO(Collections.emptyList(), Collections.emptyList());
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -50,7 +48,7 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[2])
                 .pesel(pesels[0])
-                .contacts(contacts)
+                .contacts(personContactDtoWithValidData())
                 .build();
     }
 
@@ -66,7 +64,6 @@ public class TestDataFactory {
     }
 
     public static PersonDTO personDtoWithInvalidData() {
-        PersonContactDTO contacts = new PersonContactDTO(createEmailAddressesDto(), createPhoneNumbersDto());
         return PersonDTO.builder()
                 .id(ID)
                 .name(EMPTY)
@@ -74,12 +71,11 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[2])
                 .pesel(pesels[1])
-                .contacts(contacts)
+                .contacts(personContactDtoWithInvalidData())
                 .build();
     }
 
     public static PersonDTO personDtoWithValidData() {
-        PersonContactDTO contacts = new PersonContactDTO(Arrays.asList(new EmailAddressDTO(ID, emails[0])), Arrays.asList(new PhoneNumberDTO(ID, phones[0])));
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -87,19 +83,12 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[0])
                 .pesel(pesels[0])
-                .contacts(contacts)
+                .contacts(personContactDtoWithValidData())
                 .build();
     }
 
     public static Person personWithContacts() {
         Person person = buildPerson();
-        List<Contact> contacts = new ArrayList<>(Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
-        person.setContacts(contacts);
-        return person;
-    }
-
-    public static Person personWithContactsWithoutId() {
-        Person person = buildPersonWithoutId();
         List<Contact> contacts = new ArrayList<>(Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
         person.setContacts(contacts);
         return person;
@@ -116,15 +105,12 @@ public class TestDataFactory {
                 .build();
     }
 
-    private static Person buildPersonWithoutId() {
-        return Person.builder()
-                .id(null)
-                .name(NAME)
-                .surname(SURNAME)
-                .gender(GENDER)
-                .birthDate(birthDates[0])
-                .pesel(pesels[0])
-                .build();
+    public static PersonContactDTO personContactDtoWithInvalidData() {
+        return new PersonContactDTO(createEmailAddressesDto(), createPhoneNumbersDto());
+    }
+
+    public static PersonContactDTO personContactDtoWithValidData() {
+        return new PersonContactDTO(Arrays.asList(new EmailAddressDTO(ID, emails[0])), Arrays.asList(new PhoneNumberDTO(ID, phones[0])));
     }
 
     private static List<EmailAddressDTO> createEmailAddressesDto() {

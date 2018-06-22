@@ -8,6 +8,7 @@ import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
+import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.person.asm.PersonAsm;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
@@ -25,7 +26,7 @@ import static pl.roman.mysan.contacts.common.ValidationService.validatePersonDat
 @AllArgsConstructor
 public class PersonService {
 
-    protected final PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     public void save(PersonDTO personDTO) {
         if (personRepository.findByPesel(personDTO.getPesel()) != null) {
@@ -38,23 +39,28 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public PersonDTO edit(PersonDTO personDTO) {
+    public void edit(PersonDTO personDTO) {
         validatePersonData(personDTO);
-        Person person = personRepository.getOne(personDTO.getId());
-        person.edit(personDTO);
-        personRepository.saveAndFlush(person);
-        return personDTO;
+        if (personRepository.existsById(personDTO.getId())) {
+            Person person = personRepository.getOne(personDTO.getId());
+            person.edit(personDTO);
+            personRepository.saveAndFlush(person);
+        } else
+            throw new NotFoundException("Person with id=" + personDTO.getId() + " does not exist!");
     }
 
     public void delete(Long id) {
-        personRepository.deleteById(id);
+        if (personRepository.existsById(id)) {
+            personRepository.deleteById(id);
+        } else
+            throw new NotFoundException("Person with id=" + id + " does not exist!");
     }
 
-    public List<PersonInfoDTO> findPeopleByBirthDateBetween(String first, String second) {
-        if (first.isEmpty() || second.isEmpty()) {
+    public List<PersonInfoDTO> findPeopleByBirthDateBetween(LocalDate first, LocalDate second) {
+        if (first == null || second == null) {
             throw new IllegalArgumentException("One of the date is empty!");
         }
-        return personRepository.findByBirthDateBetween(LocalDate.parse(first), LocalDate.parse(second))
+        return personRepository.findByBirthDateBetween(first, second)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
                 .collect(Collectors.toList());
