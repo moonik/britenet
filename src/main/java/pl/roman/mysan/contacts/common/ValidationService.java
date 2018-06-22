@@ -43,8 +43,8 @@ public class ValidationService {
         if (!contactsValidation.isEmpty()) {
             str.append(contactsValidation);
         }
-        if (!str.toString().isEmpty()) {
-            throw new ValidationException(str.toString());
+        if (!str.toString().trim().isEmpty()) {
+            throw new ValidationException(str.toString().trim());
         }
     }
 

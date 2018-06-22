@@ -1,15 +1,28 @@
 package pl.roman.mysan.contacts.person.service;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import pl.roman.mysan.contacts.TestDataFactory;
+import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
+import pl.roman.mysan.contacts.exceptions.ValidationException;
+import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@SpringBootTest
 public class PersonServiceTest {
 
     @Mock
@@ -22,9 +35,184 @@ public class PersonServiceTest {
         personService = new PersonService(personRepository);
     }
 
-    @Test
-    public void shouldSavePerson() {
+    @Test(expected = AlreadyExistsException.class)
+    public void shouldThrowAlreadyExistsExceptionWhileSavingNewPerson() {
         //given
+        String pesel = "12345678900";
+        PersonDTO personDTO = TestDataFactory.personDtoWithDuplicatedPesel();
 
+        //and
+        when(personRepository.findByPesel(pesel)).thenReturn(TestDataFactory.personWithContacts());
+
+        //when
+        personService.save(personDTO);
+
+        //then throw AlreadyExistsException
+    }
+
+    @Test(expected = ValidationException.class)
+    public void shouldThrowValidationExceptionWhileSavingNewPerson() {
+        //given
+        PersonDTO personDTO = TestDataFactory.personDtoWithInvalidData();
+        String expectedMessage = "Date can't be future or before 1918-01-01!\n" +
+                "Fields name and surname can't be empty!\n" +
+                "Pesel should contains 11 digits!\n" +
+                "Invalid format for email address: romangmail.com,roman@.com,roman@com,roman@gmail,roman\n" +
+                "Invalid format for phone number: 1,32193879387319783,321987dkjalskdja,312dasd213";
+        try {
+            //when
+            personService.save(personDTO);
+        }
+        catch(RuntimeException ex) {
+            //then
+            assertEquals(expectedMessage, ex.getMessage());
+            throw ex;
+        }
+    }
+
+    @Test(expected = ValidationException.class)
+    public void shouldThrowValidationExceptionWhenBirthDateIsFuture() {
+        //given
+        String expectedMessage = "Date can't be future or before 1918-01-01!";
+        PersonDTO personDTO = TestDataFactory.personDtoWithFutureDate();
+
+        try {
+            //when
+            personService.save(personDTO);
+        }
+        catch(RuntimeException ex) {
+            //then
+            assertEquals(expectedMessage, ex.getMessage());
+            throw ex;
+        }
+    }
+
+    @Test(expected = ValidationException.class)
+    public void shouldThrowValidationExceptionWhenBirthDateIsInvalidPast() {
+        //given
+        String expectedMessage = "Date can't be future or before 1918-01-01!";
+        PersonDTO personDTO = TestDataFactory.personDtoWithInvalidPastDate();
+
+        try {
+            //when
+            personService.save(personDTO);
+        }
+        catch(RuntimeException ex) {
+            //then
+            assertEquals(expectedMessage, ex.getMessage());
+            throw ex;
+        }
+    }
+
+    @Test
+    public void shouldSaveNewPerson() {
+        //given
+        PersonDTO personDTO = TestDataFactory.personDtoWithValidData();
+        Person expectedPerson = TestDataFactory.personWithContacts();
+
+        //and
+        when(personRepository.save(any(Person.class))).thenReturn(expectedPerson);
+
+        //when
+        personService.save(personDTO);
+
+        //then
+        verify(personRepository, times(1)).save(any(Person.class));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void shouldThrowValidationExceptionWhileEditingPerson() {
+        //given
+        PersonDTO personDTO = TestDataFactory.personDtoWithInvalidData();
+
+        //when
+        personService.edit(personDTO);
+
+        //then throw ValidationException
+    }
+
+    @Test
+    public void shouldEditPerson() {
+        //given
+        String name = "Batman";
+        PersonDTO personDTO = TestDataFactory.personDtoWithValidData();
+        Person oldPerson = TestDataFactory.personWithContacts();
+
+        //and
+        personDTO.setName(name);
+        when(personRepository.getOne(personDTO.getId())).thenReturn(oldPerson);
+
+        //when
+        PersonDTO newPerson = personService.edit(personDTO);
+
+        //then
+        verify(personRepository, times(1)).saveAndFlush(any(Person.class));
+        assertEquals(personDTO.getName(), newPerson.getName());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhileSearchingPeople() {
+        //given
+        String firstDate = "";
+        String secondDate = "2012-02-12";
+
+        //when
+        personService.findPeopleByBirthDateBetween(firstDate, secondDate);
+
+        //then throw exception
+    }
+
+    @Test
+    public void shouldSearchPeopleByBirthDateBetween() {
+        //given
+        String firstDate = "1991-12-12";
+        String secondDate = "2000-12-12";
+        LocalDate parsedFirstDate = LocalDate.parse(firstDate);
+        LocalDate parsedSecondDate = LocalDate.parse(secondDate);
+
+        //and
+        when(personRepository.findByBirthDateBetween(parsedFirstDate, parsedSecondDate)).thenReturn(Collections.emptyList());
+
+        //when
+        personService.findPeopleByBirthDateBetween(firstDate, secondDate);
+
+        //then
+        verify(personRepository, times(1)).findByBirthDateBetween(parsedFirstDate, parsedSecondDate);
+    }
+
+    @Test
+    public void shouldSearchPeopleByEmailPattern() {
+        //given
+        String email = "*gmail*";
+        String emailPattern = "@gmail";
+
+        //when
+        personService.findPeopleByEmail(email);
+
+        //then
+        verify(personRepository, times(1)).findPeopleByPattern(emailPattern);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowInvalidArgumentExceptionWhileSearchingByEmail() {
+        //given
+        String email = "romangmail.com";
+
+        //when
+        personService.findPeopleByEmail(email);
+
+        //then throw IllegalArgumentException
+    }
+
+    @Test
+    public void shouldSearchPeopleByEmail() {
+        //given
+        String email = "roman@gmail.com";
+
+        //when
+        personService.findPeopleByEmail(email);
+
+        //then
+        verify(personRepository, times(1)).findPeopleByEmail(email);
     }
 }

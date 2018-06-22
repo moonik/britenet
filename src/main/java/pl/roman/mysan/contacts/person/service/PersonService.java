@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.roman.mysan.contacts.common.ApplicationConstants.EMAIL_PATTERN;
 import static pl.roman.mysan.contacts.common.ValidationService.validatePersonData;
 
 @Service
@@ -37,11 +38,12 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public void edit(PersonDTO personDTO) {
+    public PersonDTO edit(PersonDTO personDTO) {
         validatePersonData(personDTO);
         Person person = personRepository.getOne(personDTO.getId());
         person.edit(personDTO);
         personRepository.saveAndFlush(person);
+        return personDTO;
     }
 
     public void delete(Long id) {
@@ -66,6 +68,9 @@ public class PersonService {
     }
 
     private List<PersonInfoDTO> findByEmail(String email) {
+        if (!email.matches(EMAIL_PATTERN)) {
+            throw new IllegalArgumentException("Invalid email!");
+        }
         return personRepository.findPeopleByEmail(email)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)

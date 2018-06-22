@@ -33,8 +33,8 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public void edit(@Valid @RequestBody PersonDTO personDTO) {
-        personService.edit(personDTO);
+    public PersonDTO edit(@Valid @RequestBody PersonDTO personDTO) {
+        return personService.edit(personDTO);
     }
 
     @DeleteMapping("/{id}")

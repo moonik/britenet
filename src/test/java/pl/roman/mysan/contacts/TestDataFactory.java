@@ -3,7 +3,6 @@ package pl.roman.mysan.contacts;
 import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
-import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
@@ -13,6 +12,7 @@ import pl.roman.mysan.contacts.person.model.PersonDTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +24,12 @@ public class TestDataFactory {
     private static final String SURNAME = "Mysan";
     private static final Character GENDER = 'M';
     private static final LocalDate[] birthDates = {LocalDate.parse("1995-08-13"), LocalDate.parse("1917-12-12"), LocalDate.parse("2020-03-05")};
-    private static final String[] pesels = {"12345678901", "12dasd"};
+    private static final String[] pesels = {"12345678901", "12dasd", "12345678900"};
     private static final String[] emails = {"roman@gmail.com", "romangmail.com", "roman@.com", "roman@com", "roman@gmail", "roman"};
     private static final String[] phones = {"123456789", "1", "32193879387319783", "321987dkjalskdja", "312dasd213"};
 
-    public static PersonDTO personDTOWithInvalidPastDate() {
+    public static PersonDTO personDtoWithInvalidPastDate() {
+        PersonContactDTO contacts = new PersonContactDTO(Collections.emptyList(), Collections.emptyList());
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -36,10 +37,12 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[1])
                 .pesel(pesels[0])
+                .contacts(contacts)
                 .build();
     }
 
-    public static PersonDTO personDTOWithInvalidFutureDate() {
+    public static PersonDTO personDtoWithFutureDate() {
+        PersonContactDTO contacts = new PersonContactDTO(Collections.emptyList(), Collections.emptyList());
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -47,22 +50,23 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[2])
                 .pesel(pesels[0])
+                .contacts(contacts)
                 .build();
     }
 
-    public static PersonDTO personDTOWithDuplicatedPesel() {
+    public static PersonDTO personDtoWithDuplicatedPesel() {
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
                 .surname(SURNAME)
                 .gender(GENDER)
                 .birthDate(birthDates[2])
-                .pesel(pesels[0])
+                .pesel(pesels[2])
                 .build();
     }
 
-    public static PersonDTO personDTOWithInvalidData() {
-        PersonContactDTO contacts = new PersonContactDTO(createEmailAdressesDto(), createPhoneNumbersDTO());
+    public static PersonDTO personDtoWithInvalidData() {
+        PersonContactDTO contacts = new PersonContactDTO(createEmailAddressesDto(), createPhoneNumbersDto());
         return PersonDTO.builder()
                 .id(ID)
                 .name(EMPTY)
@@ -74,7 +78,8 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static PersonDTO personDTOWithValidData() {
+    public static PersonDTO personDtoWithValidData() {
+        PersonContactDTO contacts = new PersonContactDTO(Arrays.asList(new EmailAddressDTO(ID, emails[0])), Arrays.asList(new PhoneNumberDTO(ID, phones[0])));
         return PersonDTO.builder()
                 .id(ID)
                 .name(NAME)
@@ -82,11 +87,19 @@ public class TestDataFactory {
                 .gender(GENDER)
                 .birthDate(birthDates[0])
                 .pesel(pesels[0])
+                .contacts(contacts)
                 .build();
     }
 
     public static Person personWithContacts() {
         Person person = buildPerson();
+        List<Contact> contacts = new ArrayList<>(Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
+        person.setContacts(contacts);
+        return person;
+    }
+
+    public static Person personWithContactsWithoutId() {
+        Person person = buildPersonWithoutId();
         List<Contact> contacts = new ArrayList<>(Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
         person.setContacts(contacts);
         return person;
@@ -103,13 +116,24 @@ public class TestDataFactory {
                 .build();
     }
 
-    private static List<EmailAddressDTO> createEmailAdressesDto() {
+    private static Person buildPersonWithoutId() {
+        return Person.builder()
+                .id(null)
+                .name(NAME)
+                .surname(SURNAME)
+                .gender(GENDER)
+                .birthDate(birthDates[0])
+                .pesel(pesels[0])
+                .build();
+    }
+
+    private static List<EmailAddressDTO> createEmailAddressesDto() {
         return Arrays.stream(emails)
                 .map(e -> new EmailAddressDTO(ID, e))
                 .collect(Collectors.toList());
     }
 
-    private static List<PhoneNumberDTO> createPhoneNumbersDTO() {
+    private static List<PhoneNumberDTO> createPhoneNumbersDto() {
         return Arrays.stream(phones)
                 .map(p -> new PhoneNumberDTO(ID, p))
                 .collect(Collectors.toList());
