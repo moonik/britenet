@@ -12,7 +12,6 @@ import pl.roman.mysan.contacts.person.model.PersonDTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,7 +88,8 @@ public class TestDataFactory {
 
     public static Person personWithContacts() {
         Person person = buildPerson();
-        List<Contact> contacts = new ArrayList<>(Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
+        List<Contact> contacts = new ArrayList<>(
+                Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
         person.setContacts(contacts);
         return person;
     }
@@ -110,7 +110,9 @@ public class TestDataFactory {
     }
 
     public static PersonContactDTO personContactDtoWithValidData() {
-        return new PersonContactDTO(Arrays.asList(new EmailAddressDTO(ID, emails[0])), Arrays.asList(new PhoneNumberDTO(ID, phones[0])));
+        return new PersonContactDTO(
+                Arrays.asList(new EmailAddressDTO(ID, emails[0])),
+                Arrays.asList(new PhoneNumberDTO(ID, phones[0])));
     }
 
     private static List<EmailAddressDTO> createEmailAddressesDto() {
