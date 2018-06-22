@@ -31,8 +31,8 @@ public class PersonService {
         if (personRepository.findByPesel(personDTO.getPesel()) != null) {
             throw new AlreadyExistsException("Person with pesel " + personDTO.getPesel() + "already exist!");
         }
-        Person person = PersonAsm.createEntityObject(personDTO);
         validateContacts(personDTO.getContacts());
+        Person person = PersonAsm.createEntityObject(personDTO);
         List<Contact> contacts = convertContacts(personDTO.getContacts(), person);
         person.setContacts(contacts);
         personRepository.save(person);

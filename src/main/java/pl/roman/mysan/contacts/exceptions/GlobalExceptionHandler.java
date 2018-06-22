@@ -23,4 +23,10 @@ public class GlobalExceptionHandler {
     public String handleInvalidFormatException(Exception ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleAlreadyExistException(Exception ex) {
+        return ex.getMessage();
+    }
 }
