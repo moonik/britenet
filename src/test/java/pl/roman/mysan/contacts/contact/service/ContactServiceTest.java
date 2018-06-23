@@ -59,6 +59,21 @@ public class ContactServiceTest {
         }
     }
 
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowNotFoundExceptionWhileAddingNewContacts() {
+        //given
+        Long id = 1L;
+        PersonContactDTO personContactDTO = TestDataFactory.personContactDtoWithValidData();
+
+        //and
+        when(personRepository.existsById(id)).thenReturn(NOT_EXIST);
+
+        //when
+        contactService.addContacts(id, personContactDTO);
+
+        //then throw NotFoundException
+    }
+
     @Test
     public void shouldAddNewContacts() {
         //given
