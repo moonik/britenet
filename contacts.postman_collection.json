@@ -27,9 +27,10 @@
 										"description": ""
 									},
 									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
-										"description": ""
+										"key": "",
+										"value": "",
+										"description": "",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -54,7 +55,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:us=\"roman.mysan.contacts/soap\">\r\n    <soapenv:Header/>\r\n    <soapenv:Body>\r\n        <us:getSearchRequest>\r\n            <us:email>roman@gmail.com</us:email>\r\n        </us:getSearchRequest>\r\n    </soapenv:Body>\r\n</soapenv:Envelope>"
+									"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:us=\"roman.mysan.contacts/soap\">\r\n    <soapenv:Header/>\r\n    <soapenv:Body>\r\n        <us:getSearchRequest>\r\n            <us:email>roman@yahoo.com</us:email>\r\n        </us:getSearchRequest>\r\n    </soapenv:Body>\r\n</soapenv:Envelope>"
 								},
 								"description": "soap web service"
 							},
@@ -92,11 +93,6 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
-										"description": ""
 									}
 								],
 								"body": {
@@ -111,22 +107,17 @@
 							"name": "edit person",
 							"request": {
 								"url": "http://localhost:8080/api/contacts/person/",
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
-										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Test\",\n\t\"surname\": \"Test\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321633202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@gmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [\n\t\t\t{\n\t\t\t\t\"phone\" : \"123456789\"\n\t\t\t\t\n\t\t\t}\n\t\t]\n\t}\n}"
+									"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Kek\",\n\t\"surname\": \"Test\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321033202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@yahoo.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [\n\t\t\t{\n\t\t\t\t\"phone\" : \"123456779\"\n\t\t\t\t\n\t\t\t}\n\t\t]\n\t}\n}"
 								},
 								"description": ""
 							},
@@ -141,11 +132,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
 										"description": ""
 									}
 								],
@@ -196,11 +182,6 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
-										"description": ""
 									}
 								],
 								"body": {
@@ -227,11 +208,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
 										"description": ""
 									}
 								],
@@ -274,11 +250,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
 										"description": ""
 									}
 								],
@@ -328,11 +299,6 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
-									},
-									{
-										"key": "Authorization",
-										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
-										"description": ""
 									}
 								],
 								"body": {
@@ -362,16 +328,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
-								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1917-02-22\",\n\t\"pesel\": \"12321632\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"romangmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
+							"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1917-02-22\",\n\t\"pesel\": \"12321632\",\n\t\"contacts\": {\n\t\t\"emails\": [{\"email\": \"romangmail.com\"}],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
 						},
 						"description": ""
 					},
@@ -408,11 +369,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
 								"description": ""
 							}
 						],
@@ -463,11 +419,6 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
-								"description": ""
 							}
 						],
 						"body": {
@@ -487,11 +438,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
 								"description": ""
 							}
 						],
