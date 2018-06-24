@@ -24,7 +24,7 @@ Also for repository tests you are going to need a test database.
 
 **3. Run application:**
 Before running the application you need to run the next command **mvn clean install**
-This command will install all necessary dependecies and also it will generate doman classes for SOAP WS
+This command will install all necessary dependecies and also it will generate domain classes for SOAP WS
 
 To run application use command in command line **mvn spring-boot:run**
 
