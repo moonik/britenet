@@ -10,9 +10,7 @@ import pl.roman.mysan.contacts.person.domain.Person;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -65,6 +63,58 @@ public class PersonRepositoryTest {
 
         //when
         List<Person> people = personRepository.findByBirthDateBetween(first, second);
+
+        //then
+        assertEquals(expectedListSize, people.size());
+    }
+
+    @Test
+    public void shouldReturnPersonWhileSearchingByEmail() {
+        //given
+        String email = "smith777@gmail.com";
+        String expectedPesel = "12345678901";
+
+        //when
+        List<Person> person = personRepository.findPeopleByEmail(email);
+
+        //then
+        assertNotNull(person);
+        assertEquals(expectedPesel, person.get(0).getPesel());
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhileSearchingByEmail() {
+        //given
+        String email = "test@gmail.com";
+        int expectedListSize = 0;
+
+        //when
+        List<Person> person = personRepository.findPeopleByEmail(email);
+
+        //then
+        assertEquals(expectedListSize, person.size());
+    }
+
+    @Test
+    public void shouldReturnPeopleWhileSearchingByEmailPattern() {
+        //given
+        String pattern = "@gmail";
+        String[] expectedPersonsPesels = {"12345678901", "12345678903"};
+
+        //when
+        List<Person> people = personRepository.findPeopleByPattern(pattern);
+
+        assertTrue(assertThatListContainsExactly(extractPesels(people), expectedPersonsPesels));
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhileSearchingByEmailPattern() {
+        //given
+        String pattern = "@yandex";
+        int expectedListSize = 0;
+
+        //when
+        List<Person> people = personRepository.findPeopleByPattern(pattern);
 
         //then
         assertEquals(expectedListSize, people.size());

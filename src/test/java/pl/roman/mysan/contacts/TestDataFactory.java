@@ -89,7 +89,7 @@ public class TestDataFactory {
     public static Person personWithContacts() {
         Person person = buildPerson();
         List<Contact> contacts = new ArrayList<>(
-                Arrays.asList(new EmailAddress(person, emails[0]), new PhoneNumber(person, phones[0])));
+                Arrays.asList(new EmailAddress(emails[0]), new PhoneNumber(phones[0])));
         person.setContacts(contacts);
         return person;
     }

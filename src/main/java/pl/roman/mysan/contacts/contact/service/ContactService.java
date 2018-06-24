@@ -2,9 +2,11 @@ package pl.roman.mysan.contacts.contact.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.roman.mysan.contacts.common.DuplicateValidator;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
+import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
@@ -13,6 +15,7 @@ import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.contact.repository.ContactRepository;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.exceptions.NotFoundException;
+import pl.roman.mysan.contacts.exceptions.ValidationException;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
@@ -21,6 +24,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.roman.mysan.contacts.common.ApplicationConstants.EMAIL_PATTERN;
+import static pl.roman.mysan.contacts.common.ApplicationConstants.INVALID_EMAIL_ADRESS;
+import static pl.roman.mysan.contacts.common.ApplicationConstants.INVALID_PHONE;
+import static pl.roman.mysan.contacts.common.ApplicationConstants.PHONE_PATTERN;
 import static pl.roman.mysan.contacts.common.ValidationService.validatePersonContacts;
 
 @Service
@@ -49,20 +56,22 @@ public class ContactService {
         personRepository.save(person);
     }
 
-    public void edit(ContactDTO contactDTO) {
-        if (contactRepository.existsById(contactDTO.getId())) {
-            Contact contact = contactRepository.getOne(contactDTO.getId());
+    public void edit(Long id, String value) {
+        if (contactRepository.existsById(id)) {
+            Contact contact = contactRepository.getOne(id);
             if (contact instanceof PhoneNumber) {
-                duplicateValidator.validateDuplicates(Arrays.asList(((PhoneNumberDTO) contactDTO)), Collections.emptyList());
-                validatePersonContacts(Collections.emptyList(), Arrays.asList(((PhoneNumberDTO) contactDTO)));
+                if (!value.matches(PHONE_PATTERN)) {
+                    throw new ValidationException(INVALID_PHONE + value);
+                }
             } else {
-                duplicateValidator.validateDuplicates(Collections.emptyList(), Arrays.asList(((EmailAddressDTO) contactDTO)));
-                validatePersonContacts(Arrays.asList(((EmailAddressDTO) contactDTO)), Collections.emptyList());
+                if (!value.matches(EMAIL_PATTERN)) {
+                    throw new ValidationException(INVALID_EMAIL_ADRESS + value);
+                }
             }
-            contact.edit(contactDTO);
+            contact.edit(value);
             contactRepository.saveAndFlush(contact);
         } else
-            throw new NotFoundException("Contact with id=" + contactDTO.getId() + " does not exist!");
+            throw new NotFoundException("Contact with id=" + id + " does not exist!");
     }
 
     public void delete(Long id) {

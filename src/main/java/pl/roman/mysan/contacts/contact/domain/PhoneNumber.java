@@ -25,15 +25,14 @@ public class PhoneNumber extends Contact {
 
     @Pattern(regexp= PHONE_PATTERN)
     @Column(unique = true)
-    private String value;
+    private String phone;
 
-    public PhoneNumber(Person person, String value) {
-        super(person);
-        this.value = value;
+    public PhoneNumber(String phone) {
+        this.phone = phone;
     }
 
     @Override
-    public void edit(ContactDTO contactDTO) {
-        this.value = ((PhoneNumberDTO) contactDTO).getPhone();
+    public void edit(String value) {
+        this.phone = value;
     }
 }

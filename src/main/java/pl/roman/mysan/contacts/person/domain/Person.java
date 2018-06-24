@@ -51,7 +51,7 @@ public class Person {
     @Column(unique = true)
     private String pesel;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Contact> contacts;
 
     public void edit(PersonDTO personDTO) {

@@ -20,7 +20,6 @@ import pl.roman.mysan.contacts.person.model.PersonInfoDTO;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,6 @@ import static pl.roman.mysan.contacts.common.ValidationService.validatePersonDat
 public class PersonService {
 
     private final PersonRepository personRepository;
-    private final ContactRepository contactRepository;
     private final DuplicateValidator duplicateValidator;
 
     public void save(PersonDTO personDTO) {
@@ -85,13 +83,14 @@ public class PersonService {
         if (!email.matches(EMAIL_PATTERN)) {
             throw new IllegalArgumentException("Invalid email!");
         }
-        return Arrays.asList(
-                PersonAsm.createPersonInfoDto(contactRepository.findPeopleByEmail(email))
-        );
+        return personRepository.findPeopleByEmail(email)
+                .stream()
+                .map(PersonAsm::createPersonInfoDto)
+                .collect(Collectors.toList());
     }
 
     private List<PersonInfoDTO> findByPattern(String pattern) {
-        return contactRepository.findPeopleByPattern(pattern)
+        return personRepository.findPeopleByPattern(pattern)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
                 .collect(Collectors.toList());

@@ -13,4 +13,8 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Person findByPesel(String pesel);
     List<Person> findByBirthDateBetween(LocalDate first, LocalDate second);
+    @Query("SELECT person FROM Person person JOIN FETCH person.contacts contact WHERE contact.email = :email")
+    List<Person> findPeopleByEmail(@Param("email") String email);
+    @Query("SELECT person FROM Person person JOIN FETCH person.contacts contact WHERE contact.email like %:pattern%")
+    List<Person> findPeopleByPattern(@Param("pattern") String pattern);
 }

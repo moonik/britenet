@@ -18,6 +18,7 @@ import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,7 +41,7 @@ public class PersonServiceTest {
     @Before
     public void setup() {
         initMocks(this);
-        personService = new PersonService(personRepository, contactRepository, duplicateValidator);
+        personService = new PersonService(personRepository, duplicateValidator);
     }
 
     @Test(expected = AlreadyExistsException.class)
@@ -239,7 +240,7 @@ public class PersonServiceTest {
         personService.findPeopleByEmail(email);
 
         //then
-        verify(contactRepository, times(1)).findPeopleByPattern(emailPattern);
+        verify(personRepository, times(1)).findPeopleByPattern(emailPattern);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -259,12 +260,12 @@ public class PersonServiceTest {
         String email = "roman@gmail.com";
 
         //and
-        when(contactRepository.findPeopleByEmail(email)).thenReturn(TestDataFactory.personWithContacts());
+        when(personService.findPeopleByEmail(email)).thenReturn(anyList());
 
         //when
         personService.findPeopleByEmail(email);
 
         //then
-        verify(contactRepository, times(1)).findPeopleByEmail(email);
+        verify(personRepository, times(1)).findPeopleByEmail(email);
     }
 }

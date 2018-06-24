@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.model.ContactDTO;
@@ -29,9 +30,9 @@ public class ContactController {
         contactService.addContacts(id, personContactDTO);
     }
 
-    @PutMapping("/")
-    public void edit(@Valid @RequestBody ContactDTO contactDTO) {
-        contactService.edit(contactDTO);
+    @PutMapping("/{id}")
+    public void edit(@PathVariable Long id, @Valid @RequestParam String value) {
+        contactService.edit(id, value);
     }
 
     @DeleteMapping("/{id}")

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import pl.roman.mysan.contacts.TestDataFactory;
+import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.repository.ContactRepository;
@@ -32,15 +33,15 @@ public class DuplicateValidatorTest {
         //given
         PersonContactDTO contacts = TestDataFactory.personContactDtoWithValidData();
         PhoneNumber anyPhoneNumber = new PhoneNumber();
-        Person anyPerson = TestDataFactory.personWithContacts();
+        EmailAddress anyEmail = new EmailAddress();
         String phone = "123456789";
         String email = "roman@gmail.com";
         String expectedMessage = "Such phones: 123456789 are already exist!" +
                 "Such emails: roman@gmail.com are already exist!";
 
         //and
-        when(contactRepository.findByValue(phone)).thenReturn(anyPhoneNumber);
-        when(contactRepository.findPeopleByEmail(email)).thenReturn(anyPerson);
+        when(contactRepository.findByPhone(phone)).thenReturn(anyPhoneNumber);
+        when(contactRepository.findByEmail(email)).thenReturn(anyEmail);
 
         try {
             //when

@@ -25,15 +25,14 @@ public class EmailAddress extends Contact {
 
     @Pattern(regexp= EMAIL_PATTERN)
     @Column(unique = true)
-    private String value;
+    private String email;
 
-    public EmailAddress(Person person, String value) {
-        super(person);
-        this.value = value;
+    public EmailAddress(String email) {
+        this.email = email;
     }
 
     @Override
-    public void edit(ContactDTO contactDTO) {
-        this.value = ((EmailAddressDTO) contactDTO).getEmail();
+    public void edit(String value) {
+        this.email = value;
     }
 }

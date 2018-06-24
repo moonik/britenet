@@ -33,14 +33,14 @@ public class DuplicateValidator {
 
     private String searchEmailDuplicates(List<EmailAddressDTO> emails) {
         return emails.stream()
-                .filter(e -> contactRepository.findPeopleByEmail(e.getEmail()) != null)
+                .filter(e -> contactRepository.findByEmail(e.getEmail()) != null)
                 .map(EmailAddressDTO::getEmail)
                 .collect(Collectors.joining(","));
     }
 
     private String searchPhoneDuplicates(List<PhoneNumberDTO> phones) {
         return phones.stream()
-                .filter(p -> contactRepository.findByValue(p.getPhone()) != null)
+                .filter(p -> contactRepository.findByPhone(p.getPhone()) != null)
                 .map(PhoneNumberDTO::getPhone)
                 .collect(Collectors.joining(","));
     }

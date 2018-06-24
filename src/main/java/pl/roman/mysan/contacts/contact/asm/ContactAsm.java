@@ -20,16 +20,16 @@ public class ContactAsm {
 
     public static Contact createEntityObject(ContactDTO contactDTO, Person person) {
         if (contactDTO instanceof PhoneNumberDTO) {
-            return new PhoneNumber(person, ((PhoneNumberDTO) contactDTO).getPhone());
+            return new PhoneNumber(((PhoneNumberDTO) contactDTO).getPhone());
         } else
-            return new EmailAddress(person, ((EmailAddressDTO) contactDTO).getEmail());
+            return new EmailAddress(((EmailAddressDTO) contactDTO).getEmail());
     }
 
     public static ContactDTO createDtoObject(Contact contact) {
         if (contact instanceof PhoneNumber) {
-            return new PhoneNumberDTO(contact.getId(), ((PhoneNumber) contact).getValue());
+            return new PhoneNumberDTO(contact.getId(), ((PhoneNumber) contact).getPhone());
         } else
-            return new EmailAddressDTO(contact.getId(), ((EmailAddress) contact).getValue());
+            return new EmailAddressDTO(contact.getId(), ((EmailAddress) contact).getEmail());
     }
 
     public static List<ContactDTO> collectContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {

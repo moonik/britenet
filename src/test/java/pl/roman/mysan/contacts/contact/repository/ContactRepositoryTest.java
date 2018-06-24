@@ -6,21 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.roman.mysan.contacts.Application;
+import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
-import pl.roman.mysan.contacts.person.domain.Person;
 
 import javax.transaction.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
-import static pl.roman.mysan.contacts.TestHelper.assertThatListContainsExactly;
-import static pl.roman.mysan.contacts.TestHelper.extractPesels;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -36,61 +28,23 @@ public class ContactRepositoryTest {
         String phone = "123456789";
 
         //when
-        PhoneNumber phoneNumber = contactRepository.findByValue(phone);
+        PhoneNumber phoneNumber = contactRepository.findByPhone(phone);
 
         //then
         assertNotNull(phoneNumber);
-        assertEquals(phone, phoneNumber.getValue());
+        assertEquals(phone, phoneNumber.getPhone());
     }
 
     @Test
-    public void shouldReturnPersonWhileSearchingByEmail() {
+    public void shouldReturnEmailWhileSearchingByPhone() {
         //given
-        String email = "smith777@gmail.com";
-        String expectedPesel = "12345678901";
+        String email = "swift@yahoo.com";
 
         //when
-        Person person = contactRepository.findPeopleByEmail(email);
+        EmailAddress emailAddress = contactRepository.findByEmail(email);
 
         //then
-        assertNotNull(person);
-        assertEquals(expectedPesel, person.getPesel());
-    }
-
-    @Test
-    public void shouldReturnEmptyListWhileSearchingByEmail() {
-        //given
-        String email = "test@gmail.com";
-
-        //when
-        Person person = contactRepository.findPeopleByEmail(email);
-
-        //then
-        assertNull(person);
-    }
-
-    @Test
-    public void shouldReturnPeopleWhileSearchingByEmailPattern() {
-        //given
-        String pattern = "@gmail";
-        String[] expectedPersonsPesels = {"12345678901", "12345678903"};
-
-        //when
-        List<Person> people = contactRepository.findPeopleByPattern(pattern);
-
-        assertTrue(assertThatListContainsExactly(extractPesels(people), expectedPersonsPesels));
-    }
-
-    @Test
-    public void shouldReturnEmptyListWhileSearchingByEmailPattern() {
-        //given
-        String pattern = "@yandex";
-        int expectedListSize = 0;
-
-        //when
-        List<Person> people = contactRepository.findPeopleByPattern(pattern);
-
-        //then
-        assertEquals(expectedListSize, people.size());
+        assertNotNull(emailAddress);
+        assertEquals(email, emailAddress.getEmail());
     }
 }

@@ -1,6 +1,7 @@
 package pl.roman.mysan.contacts.person.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +45,9 @@ public class PersonController {
     }
 
     @GetMapping("/search/between")
-    public List<PersonInfoDTO> findPeopleByBirthDateBetween(@RequestParam LocalDate first, @RequestParam LocalDate second) {
+    public List<PersonInfoDTO> findPeopleByBirthDateBetween(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate first,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate second) {
         return personService.findPeopleByBirthDateBetween(first, second);
     }
 
