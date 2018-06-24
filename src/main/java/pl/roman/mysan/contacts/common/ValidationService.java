@@ -2,7 +2,6 @@ package pl.roman.mysan.contacts.common;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.exceptions.ValidationException;

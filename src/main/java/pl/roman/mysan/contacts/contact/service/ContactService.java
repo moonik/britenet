@@ -2,25 +2,19 @@ package pl.roman.mysan.contacts.contact.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.roman.mysan.contacts.common.DuplicateValidator;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
-import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
-import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.contact.repository.ContactRepository;
-import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.exceptions.ValidationException;
 import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +37,7 @@ public class ContactService {
         duplicateValidator.validateDuplicates(contactsDto.getPhones(), contactsDto.getEmails());
         if (personRepository.existsById(id)) {
             Person person = personRepository.getOne(id);
-            List<Contact> contacts = convertContacts(contactsDto.getEmails(), contactsDto.getPhones(), person);
+            List<Contact> contacts = convertContacts(contactsDto.getEmails(), contactsDto.getPhones());
             save(person, contacts);
         } else
             throw new NotFoundException("Person with id=" + id + "does not exist!");
@@ -83,17 +77,16 @@ public class ContactService {
                 contacts.remove(contact);
                 person.setContacts(contacts);
                 personRepository.saveAndFlush(person);
-                contactRepository.delete(contact);
             } else
                 throw new NotFoundException("Person with id=" + personId + " does not exist!");
         } else
             throw new NotFoundException("Contact with id=" + contactId + " does not exist!");
     }
 
-    private static List<Contact> convertContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones, Person person) {
+    private static List<Contact> convertContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones) {
         return ContactAsm.collectContacts(emails, phones)
                 .stream()
-                .map(c -> ContactAsm.createEntityObject(c, person))
+                .map(ContactAsm::createEntityObject)
                 .collect(Collectors.toList());
     }
 }

@@ -2,7 +2,6 @@ package pl.roman.mysan.contacts.person.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,7 +50,7 @@ public class Person {
     @Column(unique = true)
     private String pesel;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Contact> contacts;
 
     public void edit(PersonDTO personDTO) {

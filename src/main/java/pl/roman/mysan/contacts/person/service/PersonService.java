@@ -5,12 +5,9 @@ import org.springframework.stereotype.Service;
 import pl.roman.mysan.contacts.common.DuplicateValidator;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
-import pl.roman.mysan.contacts.contact.domain.EmailAddress;
-import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
-import pl.roman.mysan.contacts.contact.repository.ContactRepository;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.person.asm.PersonAsm;
@@ -40,7 +37,7 @@ public class PersonService {
         validatePersonData(personDTO);
         duplicateValidator.validateDuplicates(personDTO.getContacts().getPhones(), personDTO.getContacts().getEmails());
         Person person = PersonAsm.createEntityObject(personDTO);
-        List<Contact> contacts = convertContacts(personDTO.getContacts(), person);
+        List<Contact> contacts = convertContacts(personDTO.getContacts());
         person.setContacts(contacts);
         personRepository.save(person);
     }
@@ -96,12 +93,12 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
-    private static List<Contact> convertContacts(PersonContactDTO contacts, Person person) {
+    private static List<Contact> convertContacts(PersonContactDTO contacts) {
         List<EmailAddressDTO> emails = contacts.getEmails();
         List<PhoneNumberDTO> phones = contacts.getPhones();
         return ContactAsm.collectContacts(emails, phones)
                 .stream()
-                .map(c -> ContactAsm.createEntityObject(c, person))
+                .map(ContactAsm::createEntityObject)
                 .collect(Collectors.toList());
     }
 }

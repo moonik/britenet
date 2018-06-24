@@ -18,7 +18,7 @@ import static pl.roman.mysan.contacts.common.ValidationService.validatePersonCon
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ContactAsm {
 
-    public static Contact createEntityObject(ContactDTO contactDTO, Person person) {
+    public static Contact createEntityObject(ContactDTO contactDTO) {
         if (contactDTO instanceof PhoneNumberDTO) {
             return new PhoneNumber(((PhoneNumberDTO) contactDTO).getPhone());
         } else

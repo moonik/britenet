@@ -232,6 +232,5 @@ public class ContactServiceTest {
 
         //then
         verify(personRepository, times(1)).saveAndFlush(any(Person.class));
-        verify(contactRepository, times(1)).delete(contact);
     }
 }

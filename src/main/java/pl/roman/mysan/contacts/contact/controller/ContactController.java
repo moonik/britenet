@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.roman.mysan.contacts.contact.asm.ContactAsm;
-import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.service.ContactService;
 
