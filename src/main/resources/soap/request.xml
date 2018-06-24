@@ -1,9 +1,0 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns:us="roman.mysan.contacts/soap">
-    <soapenv:Header/>
-    <soapenv:Body>
-        <us:getSearchRequest>
-            <us:email>*gmail*</us:email>
-        </us:getSearchRequest>
-    </soapenv:Body>
-</soapenv:Envelope>
