@@ -10,12 +10,10 @@ import javax.persistence.EntityNotFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final String PACKAGE_NAME = "pl.roman.mysan.contacts.person.domain.";
-
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Exception ex) {
-        return ex.getMessage().replaceAll(PACKAGE_NAME,"");
+        return ex.getMessage();
     }
 
     @ExceptionHandler(ValidationException.class)

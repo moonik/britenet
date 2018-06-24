@@ -1,0 +1,383 @@
+{
+	"variables": [],
+	"info": {
+		"name": "contacts",
+		"_postman_id": "af3b4342-ad36-143b-69fa-cb147f2916b6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "correct data",
+			"description": "",
+			"item": [
+				{
+					"name": "person",
+					"description": "",
+					"item": [
+						{
+							"name": "save person",
+							"request": {
+								"url": "http://localhost:8080/api/contacts/person/",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321633202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@gmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
+								},
+								"description": "saves person to db"
+							},
+							"response": []
+						},
+						{
+							"name": "find peopleby email (soap)",
+							"request": {
+								"url": "http://localhost:8080/soap-ws",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/xml",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:us=\"roman.mysan.contacts/soap\">\r\n    <soapenv:Header/>\r\n    <soapenv:Body>\r\n        <us:getSearchRequest>\r\n            <us:email>roman@gmail.com</us:email>\r\n        </us:getSearchRequest>\r\n    </soapenv:Body>\r\n</soapenv:Envelope>"
+								},
+								"description": "soap web service"
+							},
+							"response": []
+						},
+						{
+							"name": "find people by email",
+							"request": {
+								"url": {
+									"raw": "http://localhost:8080/api/contacts/person/search?email=*gmail*",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"contacts",
+										"person",
+										"search"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "*gmail*",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"qwe\",\n\t\"password\":\"1234546\"\n}"
+								},
+								"description": "searches person by email"
+							},
+							"response": []
+						},
+						{
+							"name": "edit person",
+							"request": {
+								"url": "http://localhost:8080/api/contacts/person/",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Test\",\n\t\"surname\": \"Test\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321633202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@gmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [\n\t\t\t{\n\t\t\t\t\"phone\" : \"123456789\"\n\t\t\t\t\n\t\t\t}\n\t\t]\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "delete person",
+							"request": {
+								"url": "http://localhost:8080/api/contacts/person/1",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321633202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@gmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "find people between date",
+							"request": {
+								"url": {
+									"raw": "http://localhost:8080/api/contacts/person/search/between?first=1994-02-22&second=1997-02-22",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"contacts",
+										"person",
+										"search",
+										"between"
+									],
+									"query": [
+										{
+											"key": "first",
+											"value": "1994-02-22",
+											"equals": true,
+											"description": ""
+										},
+										{
+											"key": "second",
+											"value": "1997-02-22",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"qwe\",\n\t\"password\":\"1234546\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "contact",
+					"description": "",
+					"item": [
+						{
+							"name": "add new contacts to person",
+							"request": {
+								"url": "http://localhost:8080/api/contacts/contact/1",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"emails\": [\r\n\t\t{\r\n\t\t\t\"email\": \"ron@gmail.com\"\r\n\t\t}\r\n\t],\r\n\t\"phones\": [\r\n\t\t{\r\n\t\t\t\"phone\" : \"123450789\"\r\n\t\t}\r\n\t]\r\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "edit contact",
+							"request": {
+								"url": {
+									"raw": "http://localhost:8080/api/contacts/contact/1?value=romanveos@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"contacts",
+										"contact",
+										"1"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "romanveos@gmail.com",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "delete contact",
+							"request": {
+								"url": {
+									"raw": "http://localhost:8080/api/contacts/contact/?contact=1&person=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"contacts",
+										"contact",
+										""
+									],
+									"query": [
+										{
+											"key": "contact",
+											"value": "1",
+											"equals": true,
+											"description": ""
+										},
+										{
+											"key": "person",
+											"value": "1",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTI1NDI5ODc0NTIyLCJleHAiOjE1MjU0MzU5MjJ9.xA7St-FgmktDXaHHKKUrdcJ_H4QJOubcWOo1hTNqCjqFZL-kxMX2H5-ABJugQdIwInAvyI3haB7e4V7TxiWapQ",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "incorrect data",
+			"description": "",
+			"item": [
+				{
+					"name": "should fail validation",
+					"request": {
+						"url": "http://localhost:8080/api/contacts/person/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1917-02-22\",\n\t\"pesel\": \"12321632\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"romangmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

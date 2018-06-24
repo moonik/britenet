@@ -200,6 +200,21 @@ public class ContactServiceTest {
         verify(contactRepository, times(1)).deleteById(ID);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowNotFoundExceptionWhileDeletingContactWithInvalidPersonId() {
+        //given
+
+        //and
+        when(contactRepository.existsById(ID)).thenReturn(EXIST);
+        when(personRepository.existsById(ID)).thenReturn(NOT_EXIST);
+
+        //when
+        contactService.delete(ID, ID);
+
+        //then
+        verify(contactRepository, times(1)).deleteById(ID);
+    }
+
     @Test
     public void shouldDeleteContact() {
         //given
@@ -208,6 +223,7 @@ public class ContactServiceTest {
 
         //and
         when(contactRepository.existsById(ID)).thenReturn(EXIST);
+        when(personRepository.existsById(ID)).thenReturn(EXIST);
         when(personRepository.getOne(ID)).thenReturn(person);
         when(contactRepository.getOne(ID)).thenReturn(contact);
 

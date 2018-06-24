@@ -76,14 +76,16 @@ public class ContactService {
 
     public void delete(Long contactId, Long personId) {
         if (contactRepository.existsById(contactId)) {
-            Person person = personRepository.getOne(personId);
-            List<Contact> contacts = person.getContacts();
-            Contact contact = contactRepository.getOne(contactId);
-            contacts.remove(contact);
-            person.setContacts(contacts);
-            personRepository.saveAndFlush(person);
-            contactRepository.delete(contact);
-
+            if (personRepository.existsById(personId)) {
+                Person person = personRepository.getOne(personId);
+                List<Contact> contacts = person.getContacts();
+                Contact contact = contactRepository.getOne(contactId);
+                contacts.remove(contact);
+                person.setContacts(contacts);
+                personRepository.saveAndFlush(person);
+                contactRepository.delete(contact);
+            } else
+                throw new NotFoundException("Person with id=" + personId + " does not exist!");
         } else
             throw new NotFoundException("Contact with id=" + contactId + " does not exist!");
     }
