@@ -9,7 +9,6 @@ import pl.roman.mysan.contacts.person.domain.Person;
 import pl.roman.mysan.contacts.person.model.PersonDTO;
 import pl.roman.mysan.contacts.person.model.PersonInfoDTO;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApplicationConstants {
     public static final String API_URL = "/api/contacts";
+    public static final String SOAP_URI = "roman.mysan.contacts/soap";
 
     public static final String INVALID_EMAIL_ADRESS = "Invalid format for email address: ";
     public static final String INVALID_PHONE = "Invalid format for phone number: ";

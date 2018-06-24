@@ -28,7 +28,7 @@ public class SoapWsConfig extends WsConfigurerAdapter {
 
     @Bean
     public XsdSchema userSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("findPeopleByEmail.xsd"));
+        return new SimpleXsdSchema(new ClassPathResource("personInfo.xsd"));
     }
 
     @Bean
@@ -37,8 +37,8 @@ public class SoapWsConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
         definition.setSchema(userSchema);
         definition.setLocationUri("/soap-ws");
-        definition.setPortTypeName("UserServicePort");
-        definition.setTargetNamespace("roman.mysan.contacts/soap");
+        definition.setPortTypeName("PersonServicePort");
+        definition.setTargetNamespace(ApplicationConstants.SOAP_URI);
         return definition;
     }
 }
