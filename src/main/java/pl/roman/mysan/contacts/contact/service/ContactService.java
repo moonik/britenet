@@ -74,11 +74,18 @@ public class ContactService {
             throw new NotFoundException("Contact with id=" + id + " does not exist!");
     }
 
-    public void delete(Long id) {
-        if (contactRepository.existsById(id)) {
-            contactRepository.deleteById(id);
+    public void delete(Long contactId, Long personId) {
+        if (contactRepository.existsById(contactId)) {
+            Person person = personRepository.getOne(personId);
+            List<Contact> contacts = person.getContacts();
+            Contact contact = contactRepository.getOne(contactId);
+            contacts.remove(contact);
+            person.setContacts(contacts);
+            personRepository.saveAndFlush(person);
+            contactRepository.delete(contact);
+
         } else
-            throw new NotFoundException("Contact with id=" + id + " does not exist!");
+            throw new NotFoundException("Contact with id=" + contactId + " does not exist!");
     }
 
     private static List<Contact> convertContacts(List<EmailAddressDTO> emails, List<PhoneNumberDTO> phones, Person person) {

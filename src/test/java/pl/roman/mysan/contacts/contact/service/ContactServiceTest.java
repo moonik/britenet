@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import pl.roman.mysan.contacts.TestDataFactory;
 import pl.roman.mysan.contacts.common.DuplicateValidator;
+import pl.roman.mysan.contacts.contact.domain.Contact;
 import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
@@ -193,7 +194,7 @@ public class ContactServiceTest {
         when(contactRepository.existsById(ID)).thenReturn(NOT_EXIST);
 
         //when
-        contactService.delete(ID);
+        contactService.delete(ID, ID);
 
         //then
         verify(contactRepository, times(1)).deleteById(ID);
@@ -202,14 +203,19 @@ public class ContactServiceTest {
     @Test
     public void shouldDeleteContact() {
         //given
+        Person person = TestDataFactory.personWithContacts();
+        Contact contact = person.getContacts().get(0);
 
         //and
         when(contactRepository.existsById(ID)).thenReturn(EXIST);
+        when(personRepository.getOne(ID)).thenReturn(person);
+        when(contactRepository.getOne(ID)).thenReturn(contact);
 
         //when
-        contactService.delete(ID);
+        contactService.delete(ID, ID);
 
         //then
-        verify(contactRepository, times(1)).deleteById(ID);
+        verify(personRepository, times(1)).saveAndFlush(any(Person.class));
+        verify(contactRepository, times(1)).delete(contact);
     }
 }
