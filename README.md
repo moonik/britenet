@@ -22,14 +22,14 @@ Also for repository tests you are going to need a test database.
     **username:** test
     **password:** test
 
-**3. Build application:**
-To build application use command in command line **mvn clean install**
+**3. Run application:**
+Before running the application you need to run the next command **mvn clean install**
+This command will install all necessary dependecies and also it will generate domain classes for SOAP WS
 
-**4. Run application:**
 To run application use command in command line **mvn spring-boot:run**
 
-**5. Run tests:**
+**4. Run tests:**
 To run all tests use command in command line **mvn test**
 
-**6. Other information:**
+**5. Other information:**
 You can also find a file in the root directory named contacts.postman_collection.json which contains sample REST requests.
