@@ -376,6 +376,132 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "shouldFailEmailValidationWhileSearchingPeopleByEmail",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/api/contacts/person/search?email=roman@gma",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"contacts",
+								"person",
+								"search"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "roman@gma",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"qwe\",\n\t\"password\":\"1234546\"\n}"
+						},
+						"description": "shouldFailEmailValidationWhileSearchingPeopleByEmail"
+					},
+					"response": []
+				},
+				{
+					"name": "shouldFailOnFindByBetweenDate",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/api/contacts/person/search/between?first=1994-02-22&second=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"contacts",
+								"person",
+								"search",
+								"between"
+							],
+							"query": [
+								{
+									"key": "first",
+									"value": "1994-02-22",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "second",
+									"value": "",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImNyZWF0ZWRfYXQiOjE1MTgxNzA5ODU5OTUsImV4cCI6MTUxODE3NzAzM30.pfL4ncfZOGX2eNM71t-zOyfq3ow22URLKwnzgK4gxcmkQBHtmKnl2Ovrj15ihMeoPO8x1K-xtKZKB5AkrO_rsA",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"qwe\",\n\t\"password\":\"1234546\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "shouldShowNotFoundException",
+					"request": {
+						"url": "http://localhost:8080/api/contacts/person/9999999",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEiLCJjcmVhdGVkX2F0IjoxNTE4OTU4NDIyMTU0LCJleHAiOjE1MTg5NjQ0NzB9.tFW2vdRsQouOqHCz0n0c7ROfyoiq5nXSWIo8lC_Kf8akYMTWjCLvJqnvZHhdsR5ImsGrDLJAQ4Ae8qP0KF68Jw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1,\n\t\"name\": \"Roman\",\n\t\"surname\": \"Mysan\",\n\t\"gender\": \"M\",\n\t\"birthDate\": \"1995-02-22\",\n\t\"pesel\": \"12321633202\",\n\t\"contacts\": {\n\t\t\"emails\": [\n\t\t\t{\n\t\t\t\t\"email\": \"roman@gmail.com\"\n\t\t\t}\n\t\t],\n\t\t\"phones\": [{\"phone\" : \"123456789\"}]\n\t}\n}"
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		}
