@@ -22,7 +22,6 @@ import static pl.roman.mysan.contacts.common.ApplicationConstants.PESEL_PATTERN;
 import static pl.roman.mysan.contacts.common.ApplicationConstants.PHONE_PATTERN;
 import static pl.roman.mysan.contacts.common.ApplicationConstants.VALID_PAST_DATE;
 
-@Service
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationService {
 
@@ -39,9 +38,9 @@ public class ValidationService {
         if (!personDTO.getPesel().matches(PESEL_PATTERN)) {
             str.append(INVALID_PESEL);
         }
-        String contactsValidation = validateContacts(personDTO.getContacts().getEmails(), personDTO.getContacts().getPhones());
-        if (!contactsValidation.isEmpty()) {
-            str.append(contactsValidation);
+        String invalidContacts = validateContacts(personDTO.getContacts().getEmails(), personDTO.getContacts().getPhones());
+        if (!invalidContacts.isEmpty()) {
+            str.append(invalidContacts);
         }
         if (!str.toString().trim().isEmpty()) {
             throw new ValidationException(str.toString().trim());

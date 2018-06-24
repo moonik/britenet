@@ -7,6 +7,7 @@ import pl.roman.mysan.contacts.contact.model.ContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
 import pl.roman.mysan.contacts.person.domain.Person;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -23,6 +24,7 @@ import static pl.roman.mysan.contacts.common.ApplicationConstants.PHONE_PATTERN;
 public class PhoneNumber extends Contact {
 
     @Pattern(regexp= PHONE_PATTERN)
+    @Column(unique = true)
     private String value;
 
     public PhoneNumber(Person person, String value) {

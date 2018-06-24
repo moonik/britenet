@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import pl.roman.mysan.contacts.TestDataFactory;
+import pl.roman.mysan.contacts.common.DuplicateValidator;
 import pl.roman.mysan.contacts.contact.domain.EmailAddress;
 import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
@@ -28,6 +29,8 @@ public class ContactServiceTest {
     private ContactRepository contactRepository;
     @Mock
     private PersonRepository personRepository;
+    @Mock
+    private DuplicateValidator duplicateValidator;
 
     private ContactService contactService;
 
@@ -37,7 +40,7 @@ public class ContactServiceTest {
     @Before
     public void setup() {
         initMocks(this);
-        contactService = new ContactService(contactRepository, personRepository);
+        contactService = new ContactService(contactRepository, personRepository, duplicateValidator);
     }
 
     @Test(expected = ValidationException.class)

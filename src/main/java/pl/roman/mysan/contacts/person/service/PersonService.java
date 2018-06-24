@@ -2,11 +2,15 @@ package pl.roman.mysan.contacts.person.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.roman.mysan.contacts.common.DuplicateValidator;
 import pl.roman.mysan.contacts.contact.asm.ContactAsm;
 import pl.roman.mysan.contacts.contact.domain.Contact;
+import pl.roman.mysan.contacts.contact.domain.EmailAddress;
+import pl.roman.mysan.contacts.contact.domain.PhoneNumber;
 import pl.roman.mysan.contacts.contact.model.EmailAddressDTO;
 import pl.roman.mysan.contacts.contact.model.PersonContactDTO;
 import pl.roman.mysan.contacts.contact.model.PhoneNumberDTO;
+import pl.roman.mysan.contacts.contact.repository.ContactRepository;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.person.asm.PersonAsm;
@@ -16,6 +20,7 @@ import pl.roman.mysan.contacts.person.model.PersonInfoDTO;
 import pl.roman.mysan.contacts.person.repository.PersonRepository;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +32,15 @@ import static pl.roman.mysan.contacts.common.ValidationService.validatePersonDat
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private final ContactRepository contactRepository;
+    private final DuplicateValidator duplicateValidator;
 
     public void save(PersonDTO personDTO) {
         if (personRepository.findByPesel(personDTO.getPesel()) != null) {
             throw new AlreadyExistsException("Person with pesel " + personDTO.getPesel() + "already exist!");
         }
         validatePersonData(personDTO);
+        duplicateValidator.validateDuplicates(personDTO.getContacts().getPhones(), personDTO.getContacts().getEmails());
         Person person = PersonAsm.createEntityObject(personDTO);
         List<Contact> contacts = convertContacts(personDTO.getContacts(), person);
         person.setContacts(contacts);
@@ -77,14 +85,13 @@ public class PersonService {
         if (!email.matches(EMAIL_PATTERN)) {
             throw new IllegalArgumentException("Invalid email!");
         }
-        return personRepository.findPeopleByEmail(email)
-                .stream()
-                .map(PersonAsm::createPersonInfoDto)
-                .collect(Collectors.toList());
+        return Arrays.asList(
+                PersonAsm.createPersonInfoDto(contactRepository.findPeopleByEmail(email))
+        );
     }
 
     private List<PersonInfoDTO> findByPattern(String pattern) {
-        return personRepository.findPeopleByPattern(pattern)
+        return contactRepository.findPeopleByPattern(pattern)
                 .stream()
                 .map(PersonAsm::createPersonInfoDto)
                 .collect(Collectors.toList());

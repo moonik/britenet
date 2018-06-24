@@ -24,6 +24,7 @@ import static pl.roman.mysan.contacts.common.ApplicationConstants.EMAIL_PATTERN;
 public class EmailAddress extends Contact {
 
     @Pattern(regexp= EMAIL_PATTERN)
+    @Column(unique = true)
     private String value;
 
     public EmailAddress(Person person, String value) {

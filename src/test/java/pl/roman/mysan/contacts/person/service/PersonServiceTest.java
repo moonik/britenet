@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import pl.roman.mysan.contacts.TestDataFactory;
+import pl.roman.mysan.contacts.common.DuplicateValidator;
+import pl.roman.mysan.contacts.contact.repository.ContactRepository;
 import pl.roman.mysan.contacts.exceptions.AlreadyExistsException;
 import pl.roman.mysan.contacts.exceptions.NotFoundException;
 import pl.roman.mysan.contacts.exceptions.ValidationException;
@@ -25,6 +27,11 @@ public class PersonServiceTest {
 
     @Mock
     private PersonRepository personRepository;
+    @Mock
+    private ContactRepository contactRepository;
+    @Mock
+    private DuplicateValidator duplicateValidator;
+
     private PersonService personService;
 
     private static final Boolean EXIST = true;
@@ -33,7 +40,7 @@ public class PersonServiceTest {
     @Before
     public void setup() {
         initMocks(this);
-        personService = new PersonService(personRepository);
+        personService = new PersonService(personRepository, contactRepository, duplicateValidator);
     }
 
     @Test(expected = AlreadyExistsException.class)
@@ -232,7 +239,7 @@ public class PersonServiceTest {
         personService.findPeopleByEmail(email);
 
         //then
-        verify(personRepository, times(1)).findPeopleByPattern(emailPattern);
+        verify(contactRepository, times(1)).findPeopleByPattern(emailPattern);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -251,10 +258,13 @@ public class PersonServiceTest {
         //given
         String email = "roman@gmail.com";
 
+        //and
+        when(contactRepository.findPeopleByEmail(email)).thenReturn(TestDataFactory.personWithContacts());
+
         //when
         personService.findPeopleByEmail(email);
 
         //then
-        verify(personRepository, times(1)).findPeopleByEmail(email);
+        verify(contactRepository, times(1)).findPeopleByEmail(email);
     }
 }

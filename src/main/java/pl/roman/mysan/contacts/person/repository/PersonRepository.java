@@ -13,8 +13,4 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Person findByPesel(String pesel);
     List<Person> findByBirthDateBetween(LocalDate first, LocalDate second);
-    @Query("SELECT contact.person FROM EmailAddress contact WHERE contact.value = :email")
-    List<Person> findPeopleByEmail(@Param("email") String email);
-    @Query("SELECT contact.person FROM EmailAddress contact WHERE contact.value like %:pattern%")
-    List<Person> findPeopleByPattern(@Param("pattern") String pattern);
 }
