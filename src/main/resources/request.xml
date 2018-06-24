@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:tns="/api/contacts/soap-endpoint">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <tns:getFindByEmailRequest>
+            <tns:email>roman@gmail.com</tns:email>
+        </tns:getFindByEmailRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

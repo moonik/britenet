@@ -13,6 +13,7 @@ import pl.roman.mysan.contacts.utils.validator.DateConstraint;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class Person {
     @Column(unique = true)
     private String pesel;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
     private List<Contact> contacts;
 
     public void edit(PersonDTO personDTO) {
