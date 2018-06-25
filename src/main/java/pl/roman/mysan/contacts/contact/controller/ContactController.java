@@ -24,12 +24,12 @@ public class ContactController {
     private final ContactService contactService;
 
     @PostMapping("/{id}")
-    public void save(@PathVariable Long id, @RequestBody PersonContactDTO personContactDTO) {
+    public void save(@PathVariable Long id, @Valid @RequestBody PersonContactDTO personContactDTO) {
         contactService.addContacts(id, personContactDTO);
     }
 
     @PutMapping("/{id}")
-    public void edit(@PathVariable Long id, @Valid @RequestParam String value) {
+    public void edit(@PathVariable Long id, @RequestParam String value) {
         contactService.edit(id, value);
     }
 
