@@ -17,6 +17,6 @@ public class TestHelper {
     public static boolean assertThatListContainsExactly(List<String> values, String... expectedValues) {
         List<String> collectedValues = Arrays.stream(expectedValues).filter(values::contains)
                 .collect(Collectors.toList());
-        return collectedValues.size() == expectedValues.length;
+        return collectedValues.size() == values.size() && collectedValues.size() == values.size();
     }
 }
