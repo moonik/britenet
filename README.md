@@ -32,4 +32,4 @@ To run application use command in command line **mvn spring-boot:run**
 To run all tests use command in command line **mvn test**
 
 **5. Other information:**
-You can also find a file in the root directory named contacts.postman_collection.json which contains sample REST requests.
+You can also find a file in the root directory named contacts.postman_collection.json which contains sample REST and SOAP requests.
