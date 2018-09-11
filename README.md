@@ -11,16 +11,16 @@ After installing **JDK**, you are going to need a database.
 This application is using a PostgreSQL database.
 
 # **Development database:**
-    `name: contacts`
+    name: contacts
     username: admin
     password: admin
 
 Also for repository tests you are going to need a test database.
 
 # **Test database:**
-    **name:** contacts_test
-    **username:** test
-    **password:** test
+`name: contacts_test`
+    username:test
+    password: test
 
 # **3. Run application:**
 Before running the application you need to run the next command **mvn clean install**
