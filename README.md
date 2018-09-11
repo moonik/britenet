@@ -12,8 +12,8 @@ This application is using a PostgreSQL database.
 
 # **Development database:**
     `name: contacts`
-    **username:** admin
-    **password:** admin
+    username: admin
+    password: admin
 
 Also for repository tests you are going to need a test database.
 
