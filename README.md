@@ -11,7 +11,7 @@ After installing **JDK**, you are going to need a database.
 This application is using a PostgreSQL database.
 
 # **Development database:**
-    **name:** contacts
+    `name: contacts`
     **username:** admin
     **password:** admin
 
