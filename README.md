@@ -10,14 +10,14 @@ First of all you need to install **JDK 8** and **Maven** to run this application
 After installing **JDK**, you are going to need a database.
 This application is using a PostgreSQL database.
 
-# **Development database:**
+## Development database:
     name: contacts
     username: admin
     password: admin
 
 Also for repository tests you are going to need a test database.
 
-# **Test database:**
+## Test database:
     name: contacts_test
     username:test
     password: test
